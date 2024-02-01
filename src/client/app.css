@@ -1,8 +1,8 @@
 #app {
-  max-width: 1280px;
+  max-width: 1000px;
   margin: 0 auto;
-  padding: 2rem;
   text-align: center;
+  width: 100%;
 }
 
 .logo {
@@ -22,4 +22,79 @@
 
 .read-the-docs {
   color: #888;
+}
+
+.stem {
+  position: relative;
+  width: 100%;
+  border: thin solid black;
+}
+
+.stem-lines {
+  width: 100%;
+  display: block;
+  height: 0;
+  position: absolute;
+}
+
+.stemlines svg {
+  position: absolute;
+  z-index: 100;
+}
+
+.stem-fragments {
+  background: lightgrey;
+  display: flex;
+  flex-wrap: nowrap;
+  height: auto;
+  justify-content: center;
+}    
+
+.stem-fragments img {
+  position: relative;
+  display: block;
+  width: 100%;
+  height: 100%;
+}
+
+.stem-front, .stem-back {
+  display: block;
+  position: relative;
+  z-index: 0;
+}
+
+.top-point, .bottom-point, .center-point {
+  padding: 5px;
+  display: block;
+  position: absolute;
+  z-index: 1;
+  border-radius: 100%;
+  opacity: 40%;
+}
+
+.center-point {
+  height: 100%;
+  padding: 0;
+  width: 1px;
+  background: green;
+}
+
+.stem-back  .top-point,
+.stem-back  .bottom-point {
+  background: red;
+}
+
+
+.stem-front .top-point,
+.stem-front .bottom-point {
+  background: blue;
+}
+
+.ruler {
+  display: block;
+  padding: 10px 0;
+  background: rgb(213, 128, 213);
+  width: 1000px;
+  text-align: center;
+  position: relative;
 }

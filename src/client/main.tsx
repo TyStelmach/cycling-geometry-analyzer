@@ -1,8 +1,10 @@
 import { render } from 'preact'
-import { App } from './app.tsx'
+import App from './app.tsx'
 import './index.css'
 
 import stem from './configs/stem.tsx'
 
-console.log(stem)
-render(<App stemData={stem} />, document.getElementById('app')!)
+(async () => {
+  const root = document.getElementById('app');
+  render(<App stemData={stem} />, root)
+})();

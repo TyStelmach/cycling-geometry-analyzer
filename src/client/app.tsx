@@ -1,17 +1,18 @@
-import { useState } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import './app.css'
 
 import StemComponent from './components/StemComponent'
 
 
 
-export function App({
+const App: FunctionComponent<AppPropls> = ({
   stemData,
-}) {
-
+}) => {
   return (
     <>
       <StemComponent stemData={stemData} />       
     </>
   )
 }
+
+export default App;
