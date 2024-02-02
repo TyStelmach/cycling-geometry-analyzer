@@ -23,11 +23,13 @@ const StemFragment: FunctionComponent<StemFragmentProps> = ({
 
 
   return (
-    <div class={`stem-${direction} fragment`}>
-      <img src={diagramFilePath} type="image/svg+xml" />
-      <div class="top-point debug"></div>
-      <div class="bottom-point debug"></div>
-      <div class="center-point debug"></div>
+    <div data-direction={direction} class={`stem-${direction} fragment`}>
+      <div class="stem-points">
+        <img src={diagramFilePath} type="image/svg+xml" />
+        <div class="top-point debug"></div>
+        <div class="bottom-point debug"></div>
+        <div class="center-point debug"></div>
+      </div>
     </div>
   )
 }
