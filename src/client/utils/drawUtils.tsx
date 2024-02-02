@@ -4,10 +4,10 @@ import { applyStylesFromCoords } from './styleUtils.tsx'
 export const createSvgLinesForStem = () => {
   const fragments = document.querySelectorAll('.stem .fragment');
   fragments.forEach(fragment => {
+    document.createElement
     console.log('hello')
   });
 }
-
 /**
  * Calculates where the point is within the grid (el.wrapper)
  * and plots ii's x and y axis values
@@ -17,7 +17,7 @@ export const createSvgLinesForStem = () => {
  */
 export const drawFromPoint = (point: HTMLElement, line: HTMLElement, grid: HTMLElement) => {
   const pos = point.getBoundingClientRect();
-  line.setAttribute('x1', pos.x + pos.width / 2);
+  line.setAttribute('x1', pos.x+pos.width/2-grid.x);
   line.setAttribute('y1', pos.y + pos.height / 2 - grid.y);
 }
 
@@ -30,7 +30,7 @@ export const drawFromPoint = (point: HTMLElement, line: HTMLElement, grid: HTMLE
  */
 export const drawToPoint = (point: HTMLElement, line: HTMLElement, grid: HTMLElement) => {
   const pos = point.getBoundingClientRect();
-  line.setAttribute('x2', pos.x + pos.width);
+  line.setAttribute('x2', pos.x + pos.width/2-grid.x);
   line.setAttribute('y2', pos.y + pos.height / 2 - grid.y);
 }
 
@@ -59,11 +59,29 @@ export const plotCoordsOnStemComponent = (coords: object, side: string) => {
  * Stems are measured ctc, so we are measuring 
  * @param length 
  */
-export const setGapInStemComponent = (length: number) => {
-  const pixelLength = convertMmToPixels(length);
-  const appWidth = document.querySelector('#app')?.clientWidth;
-  const gapPercentage = (pixelLength / appWidth) * 100;
+export const setGapInStemComponent = (reach: number, exactLength: number, faceDepth: number) => {
   const fragmentContainer = document.querySelector('.stem-fragments');
+  const gap = convertMmToPixels(exactLength - reach);
+  const totalLength = convertMmToPixels(exactLength)
+  const gapPercentage = (gap / totalLength) * 100;
+
   fragmentContainer.style.gap = `${gapPercentage}%`;
+}
+
+export const drawLinesOnStem = (el: HTMLElement) => {
+  const grid = el.getBoundingClientRect();
+
+  let topLine = document.querySelector('svg .stem-top-line');
+  let bottomLine = document.querySelector('svg .stem-bottom-line');
+
+  const backstemTop = document.querySelector('.stem-back .top-point');
+  const backstemBottom = document.querySelector('.stem-back .bottom-point');
+  const frontstemTop = document.querySelector('.stem-front .top-point');
+  const frontstemBottom = document.querySelector('.stem-front .bottom-point');
+
+  drawFromPoint(backstemTop, topLine, grid);
+  drawToPoint(frontstemTop, topLine, grid);
+  drawFromPoint(backstemBottom, bottomLine, grid);
+  drawToPoint(frontstemBottom, bottomLine, grid);
 }
 

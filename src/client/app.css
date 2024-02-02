@@ -1,8 +1,10 @@
 #app {
   max-width: 1000px;
   margin: 0 auto;
+  width:100%;
   text-align: center;
-  width: 100%;
+  border: thin solid black;
+
 }
 
 .logo {
@@ -27,27 +29,30 @@
 .stem {
   position: relative;
   width: 100%;
-  border: thin solid black;
+  max-width: 548px; /* exact size of thomson stem */
 }
 
 .stem-lines {
   width: 100%;
   display: block;
-  height: 0;
   position: absolute;
+  z-index: 1;
+  height: 100%;
 }
 
-.stemlines svg {
+.stem-lines svg {
   position: absolute;
   z-index: 100;
+  left: 0;
 }
 
 .stem-fragments {
   background: lightgrey;
-  display: flex;
+  display: inline-flex;
   flex-wrap: nowrap;
   height: auto;
-  justify-content: center;
+  align-items: center;
+  position: relative;
 }    
 
 .stem-fragments img {
