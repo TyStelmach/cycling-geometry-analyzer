@@ -26,80 +26,163 @@
   color: #888;
 }
 
-.stem {
-  position: relative;
+.workspace-wrapper {
+  max-width: 1200px;
   width: 100%;
-  max-width: 548px; /* exact size of thomson stem */
-}
-
-.stem-lines {
-  width: 100%;
+  height: 500px;
   display: block;
-  position: absolute;
-  z-index: 1;
-  height: 100%;
+  margin: 0 auto;
+  position: relative;
 }
 
-.stem-lines svg {
+svg.workspace {
+  background: #f4f4f4;
+  border: 1px solid red;
+  display: block;
+  margin: auto;
+  height: 100%;
+  width: 100%;
   position: absolute;
-  z-index: 100;
+  top: 0;
   left: 0;
-}
-
-.stem-fragments {
-  background: lightgrey;
-  display: inline-flex;
-  flex-wrap: nowrap;
-  height: auto;
-  align-items: center;
-  position: relative;
-}    
-
-.stem-fragments img {
-  position: relative;
-  display: block;
-  width: 100%;
-  height: 100%;
-}
-
-.stem-front, .stem-back {
-  display: block;
-  position: relative;
   z-index: 0;
 }
 
-.top-point, .bottom-point, .center-point {
-  padding: 5px;
-  display: block;
+svg.workspace .axis-line {
+  stroke: lightgrey;
+  stroke-width: 1;
+}
+
+svg.workspace .grid-line {
+  stroke: #e6e3e3;
+  stroke-width: 1;
+}
+
+.stem {
+  display: flex;
+  flex-direction: row;
+  justify-content: start;
   position: absolute;
-  z-index: 1;
+  top: 0;
+  left:0;
+  right: 0;
+  bottom: 0;
+  margin: auto;
+  width: 100%;
+}
+
+svg.stem-coords {
+  flex-grow: 1;
+}
+
+.cartesian-svg #stem-shaft-drawing {
+  fill: none;
+  z-index: 100;
+}
+
+.cartesian-svg #stem-shaft-centerline {
+  stroke: purple;
+  stroke-width: 2;
+}
+
+.stem-half {
+  /* border: 1px solid orange; */
+  height: auto;
+  top: 0;
+  width: auto;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.stem-half.stem-back {
+  left: 0;
+}
+
+.stem-half.stem-front {
+  right: 0;
+}
+
+.stem-half img {
+  width: 100%;
+  height: auto;
+}
+
+.stem-half .stem-plot {
+  position: relative;
+}
+
+.stem-half.stem-back .plot-point {
+  right: 0;
+}
+
+.stem-half.stem-front .plot-point {
+  left: 0;
+}
+
+.stem-half .plot-point, .stem-half .center-point {
+  display: block;
+  /* display: none; */
+  padding: 3px;
+  width: 0;
+  height: 0;
+  position: absolute;
   border-radius: 100%;
-  opacity: 40%;
+  opacity: 0;
+}
+
+.stem-half .vertical-center {
+  position: absolute;
+  height: 100%;
+  width: 1px;
+  background: red;
+  top: 0;
+  padding: 0;
+}
+
+.stem-back .vertical-center {
+  left: 42%;
+}
+
+.stem-front .vertical-center {
+  left: 57%;
 }
 
 .center-point {
-  height: 100%;
-  padding: 0;
-  width: 1px;
-  background: green;
+  background: purple;
+  margin: auto 0;
+  position: absolute;
+  top: 0;
+  bottom: 0;
 }
 
-.stem-back  .top-point,
-.stem-back  .bottom-point {
+.top-point {
   background: red;
+  top: 0;
 }
 
-
-.stem-front .top-point,
-.stem-front .bottom-point {
+.bottom-point {
   background: blue;
+  bottom: 0;
 }
 
-.ruler {
-  display: block;
-  padding: 10px 0;
-  background: rgb(213, 128, 213);
-  width: 1000px;
-  text-align: center;
-  position: relative;
+.stem-back .top-point {
+  top: 2%;
+}
+
+.stem-back .bottom-point {
+  bottom: 7%;
+}
+
+.stem-front .top-point {
+  top: 14%;
+}
+
+.stem-front .bottom-point {
+  bottom: 18%;
+}
+
+polygon {
+  stroke: black;
+  stroke-width: 1px;
 }
