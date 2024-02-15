@@ -1,59 +1,42 @@
 import { useEffect, useState, useCallback } from 'preact/hooks'
 import './app.css'
 
-import { setGapInStemComponent, drawLinesOnStem } from './utils/drawUtils';
 import StemComponent from './components/StemComponent'
+import WorkspaceComponent from './components/WorkspaceComponent'
+import SliderInput from './components/inputs/SliderInput'
 
-
-/* Handles all the calculations to render a stem to screen */
-const initialStemBoxSetup = (data: object) => {
-  const grid = document.querySelector('.stem');
-  const stemFragments = document.querySelectorAll('.stem-fragments .fragment');
-
-  setGapInStemComponent(data.reach, data.exactLength);
-  drawLinesOnStem(grid);
-
-  stemFragments.forEach(fragment => {
-    const direction = fragment.getAttribute('data-direction');
-    // setMaxHeightForImage(direction, data.exactHeight);
-
-    console.log('dir', direction);
-
-
-  })
-}
 
 const App: FunctionComponent<AppPropls> = ({
   stemData,
 }) => {
-  const [windowSize, setWindowSize] = useState(window.innerWidth)
 
-  const handleWindowResize = useCallback(event => {
-    setWindowSize(window.innerWidth);
-  }, []);
+  const [stemFormValues, setStemFormValues] = useState({angle: 0});
 
-  useEffect(() => {
-    const grid = document.querySelector('.stem');
-
-    window.addEventListener('resize', handleWindowResize);
-    drawLinesOnStem(grid);
-    return () => {
-        window.removeEventListener('resize', handleWindowResize);
-    };
-}, [windowSize]);
+  const handleSliderChange = (name, value) => {
+    setStemFormValues({ ...stemFormValues, [name]: value})
+  };
 
   useEffect(() => {
-    initialStemBoxSetup(stemData)
-  }, [])
-
-
-
-
+    console.log(stemFormValues)
+  }, [stemFormValues]);
 
   return (
-    <>
-      <StemComponent stemData={stemData} />       
-    </>
+    <div class="app-wrapper">
+      <div class="workspace-wrapper">
+        <WorkspaceComponent />
+        <StemComponent stemData={{...stemData, ...stemFormValues}} /> 
+      </div>
+
+      <div class="form">
+        <SliderInput 
+          name="angle"
+          min="-64"
+          max="64"
+          value={stemFormValues?.angle || 0}
+          onChange={handleSliderChange}
+        />  
+      </div>  
+    </div>
   )
 }
 

@@ -1,8 +1,6 @@
 import { FunctionComponent } from 'preact';
 import { useEffect } from 'preact/hooks';
 
-import { plotCoordsOnStemComponent } from '../../utils/drawUtils'
-
 
 interface StemFragmentProps {
   direction: string;
@@ -16,19 +14,15 @@ const StemFragment: FunctionComponent<StemFragmentProps> = ({
   coords,
 }) => {
 
-  useEffect(() => {
-    plotCoordsOnStemComponent(coords, direction);
-
-  });
-
 
   return (
-    <div data-direction={direction} class={`stem-${direction} fragment`}>
-      <div class="stem-points">
+    <div data-direction={direction} class={`stem-${direction} stem-half`}>
+      <div class="stem-plot">
         <img src={diagramFilePath} type="image/svg+xml" />
-        <div class="top-point debug"></div>
-        <div class="bottom-point debug"></div>
-        <div class="center-point debug"></div>
+        <div class="plot-point top-point stem-body-point"></div>
+        <div class="plot-point bottom-point stem-body-point"></div>
+        <div class="plot-point center-point"></div>
+        <div class="vertical-center"></div>
       </div>
     </div>
   )
