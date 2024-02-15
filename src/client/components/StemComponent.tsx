@@ -18,56 +18,53 @@ interface StemProps {
 const StemComponent: FunctionComponent<StemProps> = ({
   stemData
 }) => {
-  const { diagrams, coords, backLength, faceLength, shaftLength, stackHeight, exactHeight, angle } = stemData;
-  const [newStem, setNewStem] = useState();
+const [newStem, setNewStem] = useState();
 
-const drawStem = (stem) => {
-  const polygon =  document.querySelector('#stem-shaft-drawing');
-  const line =  document.querySelector('#stem-shaft-centerline');
-  stem.clean(polygon, line);
-  stem.size();
-  stem.draw();
-}
-  
-const handleResize = () => {
-  drawStem(newStem);
-};
-
-
-
-useEffect(() => {
+const initStem = (data) => {
+  const { backLength, faceLength, shaftLength, stackHeight, exactHeight, angle } = data;
   const stemWrapper = document.querySelector('.stem');
+  console.log('newAngle', angle);
   const stem = new Stem({
     angle,
     backLength,
-    shaftLength: 100,
+    shaftLength,
     faceLength,
     stackHeight,
     exactHeight,
     grid: stemWrapper,
   });
 
-  drawStem(stem);
   setNewStem(stem);
+}
 
-  return () => {
-    window.removeEventListener('resize', handleResize);
-  };
-}, []); // Empty dependency array ensures effect runs only once after initial render
+const drawStem = () => {
+  const polygon =  document.querySelector('#stem-shaft-drawing');
+  const line =  document.querySelector('#stem-shaft-centerline');
+  if (newStem) {
+    newStem.clean(polygon, line);
+    newStem.size();
+    newStem.draw();
+  }
+}
+  
+useEffect(() => {
+  initStem(stemData);
+}, [stemData]);
 
 useEffect(() => {
-  window.addEventListener('resize', handleResize);
+  if (newStem) {
+    drawStem();
+  }
 
-  return () => {
-    window.removeEventListener('resize', handleResize);
-  };
+  window.addEventListener('resize', drawStem);
+  return () => window.removeEventListener('resize', drawStem);
 }, [newStem]);
 
   return (
     <div class="stem">
-      <StemFragment direction="back" diagramFilePath={diagrams.back} coords={coords}/>
+      <StemFragment direction="back" diagramFilePath={stemData.diagrams.back} coords={stemData.coords}/>
       <svg class="stem-coords cartesian-svg"></svg>
-      <StemFragment direction="front" diagramFilePath={diagrams.front} coords={coords}/>
+      <StemFragment direction="front" diagramFilePath={stemData.diagrams.front} coords={stemData.coords}/>
     </div>
   );
 }

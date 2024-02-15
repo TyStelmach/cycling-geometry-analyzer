@@ -56,6 +56,6 @@ export const findAdjustedStemTotalLength = (faceLength, backLength, shaftLength)
   const faceCenter = faceLength / 2;
   const backCenter = backLength / 2;
   const shaftCenter = shaftLength - faceCenter - backCenter;
-  console.log(Math.floor(faceLength + backLength + shaftCenter))
+  // console.log(Math.floor(faceLength + backLength + shaftCenter))
   return (faceLength + backLength + shaftCenter);
 }

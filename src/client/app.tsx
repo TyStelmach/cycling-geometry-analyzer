@@ -6,10 +6,9 @@ import WorkspaceComponent from './components/WorkspaceComponent'
 import SliderInput from './components/inputs/SliderInput'
 
 
-const App: FunctionComponent<AppPropls> = ({
+const App = ({
   stemData,
 }) => {
-
   const [stemFormValues, setStemFormValues] = useState({angle: 0});
 
   const handleSliderChange = (name, value) => {
@@ -17,7 +16,7 @@ const App: FunctionComponent<AppPropls> = ({
   };
 
   useEffect(() => {
-    console.log(stemFormValues)
+    // console.log({...stemData, ...stemFormValues})
   }, [stemFormValues]);
 
   return (
