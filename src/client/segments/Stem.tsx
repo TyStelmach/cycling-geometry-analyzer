@@ -40,7 +40,6 @@ export default class Stem {
     // This means that 100mm is actually measured from the inner, and the shaft itself
     // Would not be 100mm.
     const totalLength = convertMmToPixels(findAdjustedStemTotalLength(this.faceLength, this.backLength, this.shaftLength));
-    console.log(totalLength)
 
     this.grid.style.maxWidth = `${totalLength}px`;
     const faceLengthPx = convertMmToPixels(this.faceLength);
@@ -61,8 +60,9 @@ export default class Stem {
   }
 
   draw() {
+    // console.log(this.angle)
     const newYAxis = calcNewYAxisPosition(this.stemFront, this.angle);
-    calcNewRotation(this.svg, this.frontDiagram, newYAxis);
+    // calcNewRotation(this.svg, this.frontDiagram, newYAxis);
     drawStemCenterLine(this.grid, this.svg, this.stemCenterPoints);
     drawStemPolygon(this.grid, this.svg, [...this.stemTopPoints, ...this.stemBottomPoints]);
   }
