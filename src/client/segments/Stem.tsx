@@ -61,12 +61,13 @@ export default class Stem {
   draw() {
     // console.log(this.angle)
     const verticalCenters = [...document.querySelectorAll('.vertical-center')];
-    const initDistance = distanceBetweenEls(verticalCenters[0], verticalCenters[1]);
-    console.log(`${initDistance / 3.779527559055118}mm`);
     const newYAxis = calcNewYAxisPosition(this.stemFront, this.angle);
     calcNewRotation(this.svg, this.stemFront, newYAxis);
-    calcNewXAxisPosition(this.stemFront, this.angle, initDistance);
-    drawStemLine(this.svg, this.stemCenterPoints);
+    
+    //center line
+    drawStemLine(this.svg, verticalCenters);
+
+    //body lines
     drawStemLine(this.svg, this.stemTopPoints);
     drawStemLine(this.svg, this.stemBottomPoints);
   }

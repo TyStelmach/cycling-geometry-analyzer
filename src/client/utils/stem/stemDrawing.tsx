@@ -13,7 +13,6 @@ export const drawStemLine = (svg, bodyPoints) => {
   // Set the x1, x2, y1, y2 of an SVG Line
   for (let i = 0; i < bodyPoints.length; i++) {
   	const position = bodyPoints[i].getBoundingClientRect();
-    console.log('pos', position, x, y)
  		line.setAttribute(`x${i+1}`, position.x + position.width/2 - x); //SVG X
   	line.setAttribute(`y${i+1}`, position.y + position.height/2 - y); // SVG Y
   }
@@ -33,7 +32,6 @@ export const drawStemPolygon = (grid, svg, bodyPoints) => {
 
   for (let i = 0; i < bodyPoints.length; i++) {
   	const position = bodyPoints[i].getBoundingClientRect();
-    console.log('pos', position, x, y)
  		topLine.setAttribute(`x${i+1}`, position.x + position.width/2 - x); //SVG X
   	topLine.setAttribute(`y${i+1}`, position.y + position.height/2 - y); // SVG Y
   }
