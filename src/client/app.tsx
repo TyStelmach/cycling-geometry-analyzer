@@ -29,8 +29,8 @@ const App = ({
       <div class="form">
         <SliderInput 
           name="angle"
-          min="-64"
-          max="64"
+          min="-30"
+          max="30"
           value={stemFormValues?.angle || 0}
           onChange={handleSliderChange}
         />  
