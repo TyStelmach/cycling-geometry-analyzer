@@ -13,10 +13,21 @@ export const calcNewYAxisPosition = (stemHalf, angle) => {
   return angle > 0 ? `-${newYAxisVal}` : newYAxisVal;
 }
 
-export const calcNewRotation = (svg, diagram, yAxis) => {
+export const calcNewXAxisPosition = (stemHalf, angle, initialDistance) => {
+  const plot = stemHalf.querySelector('.stem-plot');
+  const initialXAxisPosition = plot.getBoundingClientRect().left;
+  const newXAxisVal = initialXAxisPosition + (Math.cos(angle * Math.PI / 180) * initialDistance);
+  const deltaX = newXAxisVal - initialXAxisPosition;
+  if (newXAxisVal !== initialDistance) plot.style.left = `${initialDistance - deltaX}px`; // Adjust the plot based on the difference
+  return newXAxisVal;
+}
+
+export const calcNewRotation = (svg, stemHalf, yAxis) => {
+  const plot = stemHalf.querySelector('.stem-plot');
+
   const distance = svg.clientWidth;
   const rotation = Math.atan2(yAxis, distance) * (180 / Math.PI);
-  diagram.style.transform = (`rotate(${rotation}deg)`)
+  plot.style.transform = (`rotate(${rotation}deg)`)
 }
 
 /** Calculates the current angle of the stem based on it's 2 center points

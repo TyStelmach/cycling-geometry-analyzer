@@ -14,7 +14,7 @@ export default {
   faceLength: 38.1,
   backLength: 50.8,
   faceDepth: 21, //distance from front to center of bars 
-  shaftLength: 100, // reach, measured center to center
+  shaftLength: 120, // reach, measured center to center
   stackHeight: 30.7,
   angle: 0,
   diagrams: {

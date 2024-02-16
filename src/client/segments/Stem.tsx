@@ -1,8 +1,8 @@
-import { calcNewYAxisPosition, calcNewRotation, findAdjustedStemTotalLength } from '../utils/stem/stemMath';
-import { drawStemCenterLine, drawStemPolygon, } from '../utils/stem/stemDrawing';
+import { calcNewYAxisPosition, calcNewXAxisPosition, calcNewRotation, findAdjustedStemTotalLength } from '../utils/stem/stemMath';
+import { drawStemCenterLine, drawStemLine, drawStemPolygon, } from '../utils/stem/stemDrawing';
 import { convertLocationsToCoords } from '../utils/drawUtils';
 import { convertMmToPercentages, convertMmToPixels } from '../utils/mathUtils';
-import { setMaxWidthForEl, setMaxHeightForEl } from '../utils/common';
+import { distanceBetweenEls } from '../utils/common';
 
 export default class Stem {
   constructor({ 
@@ -41,17 +41,16 @@ export default class Stem {
     // Would not be 100mm.
     const totalLength = convertMmToPixels(findAdjustedStemTotalLength(this.faceLength, this.backLength, this.shaftLength));
 
-    this.grid.style.maxWidth = `${totalLength}px`;
+    // this.grid.style.maxWidth = `${totalLength}px`;
     const faceLengthPx = convertMmToPixels(this.faceLength);
     const backLengthPx = convertMmToPixels(this.backLength);
     const stackHeightPx = convertMmToPixels(this.stackHeight);
     const exactHeightPx = convertMmToPixels(this.exactHeight);
-    const shaftLengthPx = convertMmToPixels(this.shaftLength);
     this.stemBack.style.maxWidth = `${backLengthPx}px`;
     this.backDiagram.style.maxHeight = `${stackHeightPx}px`;
     this.frontDiagram.style.maxHeight = `${exactHeightPx}px`;
     this.stemFront.style.maxWidth = `${faceLengthPx}px`;
-    this.svg.style.maxWidth = `${totalLength - faceLengthPx - backLengthPx}px`;
+    this.svg.style.maxWidth = `${Math.ceil(totalLength - faceLengthPx - backLengthPx)}px`;
     return;
   }
 
@@ -61,15 +60,20 @@ export default class Stem {
 
   draw() {
     // console.log(this.angle)
+    const verticalCenters = [...document.querySelectorAll('.vertical-center')];
+    const initDistance = distanceBetweenEls(verticalCenters[0], verticalCenters[1]);
+    console.log(`${initDistance / 3.779527559055118}mm`);
     const newYAxis = calcNewYAxisPosition(this.stemFront, this.angle);
-    // calcNewRotation(this.svg, this.frontDiagram, newYAxis);
-    drawStemCenterLine(this.grid, this.svg, this.stemCenterPoints);
-    drawStemPolygon(this.grid, this.svg, [...this.stemTopPoints, ...this.stemBottomPoints]);
+    calcNewRotation(this.svg, this.stemFront, newYAxis);
+    calcNewXAxisPosition(this.stemFront, this.angle, initDistance);
+    drawStemLine(this.svg, this.stemCenterPoints);
+    drawStemLine(this.svg, this.stemTopPoints);
+    drawStemLine(this.svg, this.stemBottomPoints);
   }
 
-  clean(polygon, line) {
-    if (polygon) polygon.remove();
-    if (line) line.remove();
+  clean() {
+    const lines = [...this.svg.querySelectorAll('line')];
+    lines.forEach(line => line.remove());
   }
 
 }

@@ -73,6 +73,7 @@ svg.workspace .grid-line {
 
 svg.stem-coords {
   flex-grow: 1;
+  overflow: visible;
 }
 
 .cartesian-svg #stem-shaft-drawing {
@@ -80,7 +81,7 @@ svg.stem-coords {
   z-index: 100;
 }
 
-.cartesian-svg #stem-shaft-centerline {
+.cartesian-svg line {
   stroke: purple;
   stroke-width: 2;
 }
