@@ -1,4 +1,12 @@
-import { convertLocationsToCoords } from '../drawUtils';
+import { convertMmToPixels } from '../mathUtils';
+
+export const drawLine = (grid, reach, debug = true) => {
+  const reachInPixels = convertMmToPixels(reach);  const line = document.createElement('div');
+  grid.appendChild(line);
+  line.classList.add('stem-line', `${debug && 'debug'}`);
+  line.style.maxWidth = `${reachInPixels}px`;
+  return line;
+}
 
 /** Creates an SVG line and appends it to the grid's svg. 
  * The line is created with coords that will draw it directly from 

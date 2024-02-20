@@ -10,3 +10,8 @@ export const applyStylesFromCoords = (coords: object, el: HTMLElement) => {
     }
   })
 }
+
+export const getComputedStyle = (el, style, pseudo = '') => {
+  const computedStyle = window.getComputedStyle(el, pseudo);
+  return parseInt(computedStyle.getPropertyValue(style), 10);
+}

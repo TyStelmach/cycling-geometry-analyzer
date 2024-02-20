@@ -1,4 +1,28 @@
-import { convertMmToPercentages } from '../mathUtils'
+import { convertMmToPercentages, convertMmToPixels } from '../mathUtils'
+import { getComputedStyle } from '../styleUtils';
+
+
+/**
+ * Cycling stems are measured center-to-center, so this calculates the 
+ * true reach, by taking the offsetLeft of indiividual centerpoints found
+ * in the stem fragments
+
+ * @returns - Int - MM converted value of the reach - OffsetLefts
+ */
+export const calculateTrueStemReach = (stem, reach) => {
+  const stemBackCenter = stem.querySelector('.backstem-center');
+  const stemFrontCenter = stem.querySelector('.frontstem-center');
+
+  const stemBackImgWidth = getComputedStyle(stem, 'width', '::before');
+  const stemBackCenterLeft = getComputedStyle(stemBackCenter, 'left');
+  const stemFrontImgWidth = getComputedStyle(stem, 'width', '::after');
+  const stemFrontCenterRight = getComputedStyle(stemFrontCenter, 'right');
+  // Subtract the excess of stem fragments to get true stem shaft length
+  const trueReach = reach - (stemFrontImgWidth - stemFrontCenterRight) - (stemBackImgWidth - stemBackCenterLeft);
+  return trueReach
+}
+
+
 
 /** Calculates and appliesthe y-axis value the stem half will need to 
  * reposition in order to create a centerline at the designerd angle (deg)

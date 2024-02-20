@@ -1,6 +1,6 @@
 import { FunctionComponent } from 'preact';
 import { useState, useEffect } from 'preact/hooks';
-import StemFragment from './fragments/StemFragment';
+import { setCartesianOrigin } from '../utils/drawUtils';
 import Stem from '../segments/Stem';
 
 type DiagramProps = {
@@ -21,31 +21,43 @@ const StemComponent: FunctionComponent<StemProps> = ({
 const [newStem, setNewStem] = useState();
 
 const initStem = (data) => {
-  const { backLength, faceLength, shaftLength, stackHeight, exactHeight, angle } = data;
+  const { debug, backLength, faceLength, reach, stackHeight, exactHeight, angle } = data;
   const stemWrapper = document.querySelector('.stem');
   console.log('newAngle', angle);
-  const stem = new Stem({
+  const stemStart = new Stem({
     angle,
     backLength,
-    shaftLength,
+    reach,
     faceLength,
     stackHeight,
     exactHeight,
-    grid: stemWrapper,
+    debug,
+    stem: stemWrapper,
   });
 
-  setNewStem(stem);
+  setNewStem(stemStart);
 }
 
 const drawStem = () => {
-  const polygon =  document.querySelector('#stem-shaft-drawing');
-  const line =  document.querySelector('#stem-shaft-centerline');
+  const line =  document.querySelectorAll('.stem-body-line');
   if (newStem) {
-    newStem.clean(polygon, line);
+    newStem.clean(line);
+    newStem.plotDebug();
     newStem.size();
     newStem.draw();
   }
 }
+
+const applyStemFragments = (backDiagram, frontDiagram) => {
+  const stem = document.querySelector('.stem');
+  stem.style.setProperty('--before-image', `url("${backDiagram}")`);
+  stem.style.setProperty('--after-image', `url("${frontDiagram}")`);
+}
+
+useEffect(() => {
+  const svg = document.querySelector('.stem-coords');
+  // setCartesianOrigin(svg, svg?.clientWidth, svg?.clientHeight, 20);
+})
   
 useEffect(() => {
   initStem(stemData);
@@ -53,6 +65,7 @@ useEffect(() => {
 
 useEffect(() => {
   if (newStem) {
+    applyStemFragments(stemData.diagrams.back, stemData.diagrams.front);
     drawStem();
   }
 
@@ -61,11 +74,25 @@ useEffect(() => {
 }, [newStem]);
 
   return (
-    <div class="stem">
-      <StemFragment direction="back" diagramFilePath={stemData.diagrams.back} coords={stemData.coords}/>
-      <svg class="stem-coords cartesian-svg"></svg>
-      <StemFragment direction="front" diagramFilePath={stemData.diagrams.front} coords={stemData.coords}/>
-    </div>
+    <>
+      <div class="stem-container">
+        <div class="stem">
+          <div class="backstem-plots">
+            <div class="backstem-top top-point debug-point debug"></div>
+            <div class="backstem-center center-point debug-point debug"></div>
+            <div class="backstem-bottom bottom-point debug-point  debug"></div>
+          </div>
+            
+          <div class="frontstem-plots">
+            <div class="frontstem-top top-point debug-point debug"></div>
+            <div class="frontstem-center center-point debug-point debug"></div>
+            <div class="frontstem-bottom bottom-point debug-point  debug"></div>
+          </div>
+        </div>
+        <svg class="stem-coords">
+        </svg>
+      </div>
+    </>
   );
 }
 

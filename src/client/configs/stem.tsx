@@ -9,55 +9,29 @@
 export default {
   name: 'Thomson Elite X4',
   // Millimeters
-  exactLength: 165,
-  exactHeight: 54,
-  faceLength: 38.1,
-  backLength: 50.8,
+  exactLength: 159,
+  exactHeight: 56,
+  faceLength: 50.1,
+  backLength: 51.5,
   faceDepth: 21, //distance from front to center of bars 
-  shaftLength: 120, // reach, measured center to center
-  stackHeight: 30.7,
+  reach: 120, // reach, measured center to center
+  stackHeight: 40.6,
   angle: 0,
   diagrams: {
     front: 'public/diagrams/thomsonElite-front.svg',
     back: 'public/diagrams/thomsonElite-back.svg',
   },
-  coords: {
-    // Percentages
-    backCenter: {
-      top: 0,
-      right: null,
-      bottom: null,
-      left: 47,
+  debug: {
+    backStem: {
+      center: [89, 0],
+      top: [0, 34],
+      bottom: [0, 34],
     },
-    backTop: {
-      top: 29.5,
-      right: 0,
-      bottom: null,
-      left: null,
-    },
-    backBottom: {
-      top: null,
-      right: 0,
-      bottom: 1,
-      left: null,
-    },
-    frontCenter: {
-      top: 0,
-      right: 42.5,
-      bottom: null,
-      left: null,
-    },
-    frontTop: {
-      top: 13,
-      right: null,
-      bottom: null,
-      left: 0,
-    },
-    frontBottom: {
-      top: null,
-      right: null,
-      bottom: 13,
-      left: 0,
+    frontStem: {
+      center: [81, 0],
+      top: [0, 32],
+      bottom: [0, 32],
     }
   }
+
 }

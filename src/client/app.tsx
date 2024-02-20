@@ -34,6 +34,15 @@ const App = ({
           value={stemFormValues?.angle || 0}
           onChange={handleSliderChange}
         />  
+
+        <SliderInput 
+          name="reach"
+          min="70"
+          max="180"
+          step="10"
+          value={stemFormValues?.reach || 100}
+          onChange={handleSliderChange}
+        />  
       </div>  
     </div>
   )
