@@ -1,0 +1,9 @@
+.cartesian-svg line.grid-line {
+  stroke: #ddd;
+  stroke-width: 1;
+}
+
+.cartesian-svg line.grid-center-line {
+  stroke: #000;
+  stroke-width: 2;
+}
