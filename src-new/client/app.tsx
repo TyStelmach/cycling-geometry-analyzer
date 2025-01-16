@@ -38,11 +38,15 @@ const App = () => {
   }, [stem, frame]);
   return (
     <div class="app-wrapper">
-      <ControlPanel stem={stem} frame={frame} stemChangeHandler={updateStem} frameChangeHandler={updateFrame} />
-      <div class="workspace-wrapper">
-        <Workspace gridSize={GRID_SIZE} pixelsPerMm={3} />
-
-      </div>
+      <Workspace
+        stem={stem}
+        frame={frame}
+        updateStem={updateStem}
+        updateFrame={updateFrame}
+        gridSize={GRID_SIZE}
+        gridCenter={GRID_CENTER}
+        gridRatio={PIXELS_PER_MM}
+      />
     </div>
   )
 }

@@ -3,4 +3,4 @@
  * @param mm - Number - the mm number to convert
  * @returns approximate px value
  */
-export const convertMmToPixels = (mm: number, ratio: number) => mm * ratio;
+export const convertMmToPixels = (mm: number, ratio: number = 3) => mm * ratio;

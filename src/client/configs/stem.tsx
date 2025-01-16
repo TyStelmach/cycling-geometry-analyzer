@@ -6,7 +6,7 @@
   */
 
 
-export default {
+const Thomson = {
   name: 'Thomson Elite X4',
   // Millimeters
   exactLength: 165,
@@ -61,3 +61,5 @@ export default {
     }
   }
 }
+
+export default Thomson;
