@@ -7,3 +7,7 @@
   stroke: #000;
   stroke-width: 2;
 }
+
+.debug {
+  display: none
+}

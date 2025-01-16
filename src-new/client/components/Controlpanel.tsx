@@ -6,22 +6,23 @@ import TextInput from './inputs/TextInput';
 const ControlPanel: FunctionComponent = ({
   stem,
   frame,
-  stemChangeHandler,
-  frameChangeHandler
+  updateStem,
+  updateFrame,
+  calculateStemCoords,
+  calculateSpacers,
 }) => {
-
   return (
     <div>
       <div class="stem-metrics">
-        <h4>Bicycle Metrics</h4>
+        <h4>Frame Metrics</h4>
         <TextInput 
           name='Headtube Angle'
-          value='73'
+          value={frame.headtubeAngle}
           type='number'
           step='0.25'
           min='65'
           max='80'
-          onChange={(e) => frameChangeHandler(frame.id, 'headtubeAngle', Number(e.target.value))}
+          onChange={(e) => updateFrame(frame.id, 'headtubeAngle', Number(e.target.value))}
         />
       </div>
       <div class="stem-metrics">
@@ -33,7 +34,7 @@ const ControlPanel: FunctionComponent = ({
           step='5'
           min='20'
           max='300'
-          onChange={(e) => stemChangeHandler(stem.id, 'length', Number(e.target.value))}
+          onChange={(e) => updateStem(stem.id, 'length', Number(e.target.value))}
         />
 
         <TextInput 
@@ -43,7 +44,7 @@ const ControlPanel: FunctionComponent = ({
           step='1'
           min='-80'
           max='80'
-          onChange={(e) => stemChangeHandler(stem.id, 'angle', Number(e.target.value))}
+          onChange={(e) => updateStem(stem.id, 'angle', Number(e.target.value))}
         />
 
         <TextInput 
@@ -53,7 +54,7 @@ const ControlPanel: FunctionComponent = ({
           step='1'
           min='0'
           max='50'
-          onChange={(e) => stemChangeHandler(stem.id, 'stackHeight', Number(e.target.value))}
+          onChange={(e) => updateStem(stem.id, 'stackHeight', Number(e.target.value))}
         />
       </div>
       
