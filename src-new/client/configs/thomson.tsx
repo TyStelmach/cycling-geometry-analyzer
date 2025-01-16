@@ -23,7 +23,7 @@
       width: 400,  // actual SVG dimensions
       height: 400,
       connections: {
-        top: { x: 20, y: 25 },    // percentages from top-left
+        top: { x: 0, y: 25 },    // percentages from top-left
         bottom: { x: 0, y: 77 }
       }
     },
