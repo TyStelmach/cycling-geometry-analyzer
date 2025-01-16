@@ -23,8 +23,9 @@
       width: 400,  // actual SVG dimensions
       height: 400,
       connections: {
-        top: { x: 0, y: 25 },    // percentages from top-left
-        bottom: { x: 0, y: 77 }
+        top: { x: -18.5, y: -14.5 },    // percentages from top-left
+        bottom: { x: -18.5, y: 14.5 },
+        floor: { x: 0, y: 21 }
       }
     },
     collar: {
@@ -32,8 +33,9 @@
       width: 300,  // actual SVG dimensions
       height: 300,
       connections: {
-        top: { x: 100, y: 17 },
-        bottom: { x: 100, y: 83 }
+        top: { x: 21.5, y: -17.5 },
+        bottom: { x: 21.5, y: 13 },
+        floor: { x: 0, y: 14.5 }
       }
     }
   }

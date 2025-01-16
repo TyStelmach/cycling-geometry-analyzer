@@ -39,5 +39,5 @@ export const drawSpacersOnScreen = (totalHeight: number) => {
   // Fill remaining stack height with x-small spacers (1mm)
   spacers.push(...new Array(totalHeight).fill(1));
 
-  return spacers.sort((a, b) => b - a);
+  return spacers.sort((a, b) => a - b);
 }

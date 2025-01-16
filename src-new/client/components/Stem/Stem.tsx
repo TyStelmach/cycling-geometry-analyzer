@@ -1,7 +1,6 @@
 import { FunctionComponent } from 'preact';
-import { useEffect, useState } from 'preact/hooks';
 import { calculateStackOffset, calculateStemCoords } from '../../utils/calculations';
-import StemFragment from './StemFragement';
+import MergedStemFragments from './MergedStemFragments';
 
 const Stem: FunctionComponent = ({
   stem,
@@ -31,25 +30,31 @@ const Stem: FunctionComponent = ({
         strokeDasharray="8 4"
       />
 
-      {/* Back collar */}
-      <StemFragment
+      <MergedStemFragments
         config={config}
-        position="collar"
-        scale={gridRatio}
-        x={stemCoords.collar.center.x}
-        y={stemCoords.collar.center.y}
+        stem={stem}
+        fragment1={{
+          position: 'collar',
+          x: stemCoords.collar.center.x,
+          y: stemCoords.collar.center.y,
+          scale: gridRatio,
+          rotation: 0,
+          connectionPoint1: config.diagrams.collar.connections.top,
+          connectionPoint2: config.diagrams.collar.connections.bottom,
+          floorPoint1: config.diagrams.collar.connections.floor,
+        }}
+        fragment2={{
+          position: 'face',
+          x: stemCoords.face.center.x,
+          y: stemCoords.face.center.y,
+          scale: gridRatio,
+          rotation: 0,
+          connectionPoint1: config.diagrams.face.connections.top,
+          connectionPoint2: config.diagrams.face.connections.bottom,
+          additionalTransformation: faceTransformation,
+          floorPoint1: config.diagrams.face.connections.floor,
+        }}
       />
-
-      {/* Front face */}
-      <g transform={faceTransformation}>
-        <StemFragment
-          config={config}
-          position="face"
-          scale={gridRatio}
-          x={stemCoords.face.center.x}
-          y={stemCoords.face.center.y}
-        />
-      </g>
     </g>
   );
 };

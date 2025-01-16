@@ -38,8 +38,8 @@ export const calculateStackOffset = (
   const offset = convertMmToPixels(stackHeight);
 
   return {
-    x: -(Math.sin(angleInRadius) * offset),
-    y: -(Math.cos(angleInRadius) * offset)
+    x: 0,
+    y: 0
   };
 };
 
