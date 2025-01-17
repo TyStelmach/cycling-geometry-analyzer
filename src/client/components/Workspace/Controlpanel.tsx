@@ -43,8 +43,8 @@ const ControlPanel: FunctionComponent<ControlPanelProps> = ({
           value={stem.angle}
           type='number'
           step={1}
-          min={-80}
-          max={80}
+          min={-35}
+          max={35}
           onChange={(e: JSX.TargetedEvent<HTMLInputElement>) => 
             updateStem(stem.id, 'angle', Number(e.currentTarget.value))
           }

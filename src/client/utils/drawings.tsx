@@ -1,3 +1,4 @@
+import { XYCoordinateProps } from '../../types';
 import { getSpacersForSize } from './calculations';
 
 /**
@@ -40,4 +41,49 @@ export const drawSpacersOnScreen = (totalHeight: number): number[] => {
   spacers.push(...new Array(totalHeight).fill(1));
 
   return spacers.sort((a, b) => a - b);
+};
+
+/**
+ * Applies a slight Bézier curve to the conneciton points of the stem body when the angle
+ * becomes extreme. This smooths out the connection point on the stem collar.
+ * 
+ * Applies slight different curve intensities based on stem angle
+ * 
+ * @param start - Object({x,y}) - The Start coordinates of the body line
+ * @param end - Object({x,y}) - The End coordinates of the body line
+ * @param angle - Number - The angle of the stem
+ * @returns String - the SVG coordinate string for the Bézier curve
+ */
+export const drawBezierCurveConnection = (start: XYCoordinateProps, end: XYCoordinateProps, angle: number) => {
+  const dx = end.x - start.x;
+  const dy = end.y - start.y;
+  const angleOfLine = Math.atan2(dy, dx);
+  let controlDistance = 0;
+  let cp1 = {
+    x: start.x + Math.cos(angleOfLine) * controlDistance * 0.75, // Half distance for start control point
+    y: start.y + Math.sin(angleOfLine) * controlDistance * -0.25
+  };
+
+  if (angle > -7 && angle < 7) {
+    return `M ${start.x},${start.y} L ${end.x},${end.y}`;
+  }
+
+  if (angle < -7 || angle > 7) {
+    controlDistance = Math.abs(dx) * 0.25; // Try 15% instead of 25%
+    cp1.x = start.x + Math.cos(angleOfLine) * controlDistance * 0.5;
+    cp1.y = start.y + Math.sin(angleOfLine) * controlDistance * -0.25
+  };
+
+  if (angle < -30 || angle > 30) {
+    controlDistance = Math.abs(dx) * 0.25;
+    cp1.x = start.x + Math.cos(angleOfLine) * controlDistance * 0.85;
+    cp1.y = start.y + Math.sin(angleOfLine) * controlDistance * -0.25
+  };
+  
+  const cp2 = {
+    x: end.x - Math.cos(angleOfLine) * controlDistance,
+    y: end.y - Math.sin(angleOfLine) * controlDistance
+  };
+  
+  return `M ${start.x},${start.y} C ${cp1.x},${cp1.y} ${cp2.x},${cp2.y} ${end.x},${end.y}`;
 };

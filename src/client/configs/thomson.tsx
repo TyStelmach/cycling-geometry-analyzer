@@ -26,8 +26,8 @@ const Thomson: StemConfigProps = {
       width: 300,  // actual SVG dimensions
       height: 300,
       connections: {
-        top: { x: 21.5, y: -17.5 },
-        bottom: { x: 21.5, y: 13 },
+        top: { x: 22.5, y: -18.75 },
+        bottom: { x: 22.5, y: 14 },
         floor: { x: 0, y: 14.5 }
       }
     }

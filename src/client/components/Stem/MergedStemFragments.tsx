@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'preact';
 import { MergedFragmentsProps } from './StemTypes';
 import { getRotatedPoint, parseTransformationCoords, applyTransformationCoords } from '../../utils/cartesianCoords';
+import { drawBezierCurveConnection } from '../../utils/drawings';
 import StemFragment from './StemFragment';
 
 const MergedStemFragments: FunctionComponent<MergedFragmentsProps> = ({
@@ -87,33 +88,27 @@ const MergedStemFragments: FunctionComponent<MergedFragmentsProps> = ({
       /> 
 
       {/* Render Body Lines using transformed coordinates */}
-      <line
-        x1={point1.x}
-        y1={point1.y}
-        x2={transformedPoint2.x}
-        y2={transformedPoint2.y}
-        stroke="#FF0000"
-        strokeWidth={1 * scale1}
-        className="connection-line"
-      />
-      <line
-        x1={point1B.x}
-        y1={point1B.y}
-        x2={transformedPoint2B.x}
-        y2={transformedPoint2B.y}
-        stroke="#FF0000"
-        strokeWidth={1 * scale1}
-        className="connection-line"
-      />
-      <line
-        x1={pointFloor1.x}
-        y1={pointFloor1.y}
-        x2={transformedPointFloor.x}
-        y2={transformedPointFloor.y}
-        stroke="#FF0000"
-        strokeWidth={1 * scale1}
-        className="connection-line debug"
-      />
+      <path
+      d={drawBezierCurveConnection(point1, transformedPoint2, stem.angle)}
+      stroke="#FF0000"
+      strokeWidth={1 * scale1}
+      fill="none"
+      className="connection-line"
+    />
+    <path
+      d={drawBezierCurveConnection(point1B, transformedPoint2B, stem.angle)}
+      stroke="#FF0000"
+      strokeWidth={1 * scale1}
+      fill="none"
+      className="connection-line"
+    />
+    <path
+      d={drawBezierCurveConnection(pointFloor1, transformedPointFloor, stem.angle)}
+      stroke="#FF0000"
+      strokeWidth={1 * scale1}
+      fill="none"
+      className="connection-line debug"
+    />
     </g>
   );
 };
