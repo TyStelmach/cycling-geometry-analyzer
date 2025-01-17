@@ -1,7 +1,9 @@
+import { FunctionComponent } from 'preact';
+import { MergedFragmentsProps } from './StemTypes';
 import { getRotatedPoint, parseTransformationCoords, applyTransformationCoords } from '../../utils/cartesianCoords';
 import StemFragment from './StemFragment';
 
-const MergedStemFragments = ({
+const MergedStemFragments: FunctionComponent<MergedFragmentsProps> = ({
   config,
   fragment1,
   fragment2,
@@ -81,6 +83,7 @@ const MergedStemFragments = ({
         floorPoint1={floor2}
         additionalTransformation={additionalTransformation}
         config={config}
+        stem={stem}
       /> 
 
       {/* Render Body Lines using transformed coordinates */}

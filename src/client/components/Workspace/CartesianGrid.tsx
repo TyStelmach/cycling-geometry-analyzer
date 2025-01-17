@@ -1,15 +1,14 @@
 import { FunctionComponent } from 'preact';
-import { useEffect } from 'preact/hooks';
-import { convertMmToPixels } from '../utils/calculations';
+import { GridProps } from './WorkspaceTypes';
+import { convertMmToPixels } from '../../utils/calculations';
 
-const CartesianGrid = ({
+const CartesianGrid: FunctionComponent<GridProps> = ({
   gridSize,
   gridCenter,
   gridRatio,
   gridStep = 10
 }) => {
   const gridElements = [];
-  const convertMmToPixels = (mm, ratio) => mm * ratio;
   
   for (let i = -gridCenter; i <= gridCenter; i += convertMmToPixels(gridStep, gridRatio)) {
     // Grid lines

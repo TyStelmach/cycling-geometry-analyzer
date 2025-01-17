@@ -1,12 +1,11 @@
 import { FunctionComponent } from 'preact';
-import { calculateStemCoords } from '../utils/calculations';
-import { drawSpacersOnScreen } from '../utils/drawings';
+import { WorkspaceProps } from './WorkspaceTypes'
 import ControlPanel from './Controlpanel';
 import CartesianGrid from './CartesianGrid';
-import Stem from './Stem/Stem';
-import Thomson from '../configs/thomson';
+import Stem from '../Stem/Stem';
+import Thomson from '../../configs/thomson';
 
-const Workspace: FunctionComponent = ({
+const Workspace: FunctionComponent<WorkspaceProps> = ({
   stem,
   updateStem,
   frame,
@@ -14,7 +13,6 @@ const Workspace: FunctionComponent = ({
   gridSize,
   gridCenter,
   gridRatio,
-
 }) => {
   console.log(Thomson)
   return (
@@ -25,8 +23,6 @@ const Workspace: FunctionComponent = ({
       frame={frame}
       updateStem={updateStem}
       updateFrame={updateFrame}
-      calculateStemCoords={(stem) => calculateStemCoords(stem, gridCenter, gridRatio)}
-      calculateSpacer={drawSpacersOnScreen}
     />
 
     <svg width={gridSize} height={gridSize} className='cartesian-svg'>
@@ -41,7 +37,6 @@ const Workspace: FunctionComponent = ({
         stem={stem}
         frame={frame}
         config={Thomson}
-        headtubeAngle={frame.headtubeAngle}
         gridSize={gridSize}
         gridCenter={gridCenter}
         gridRatio={gridRatio}

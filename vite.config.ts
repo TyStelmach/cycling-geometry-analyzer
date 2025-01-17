@@ -5,4 +5,8 @@ import preact from '@preact/preset-vite'
 export default defineConfig({
   plugins: [preact()],
   publicDir: 'public',
+  define: {
+    'process.env.BASE_PATH': JSON.stringify(process.env.NODE_ENV === 'production' ? './' : './public/')
+  }
 });
+

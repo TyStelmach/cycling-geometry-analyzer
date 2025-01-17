@@ -1,3 +1,5 @@
+import { XYCoordinateProps, TransformationProps } from "../../types";
+
 /**
  * Calculates the new position of a point after applying a scaling and rotation transformation.
  *
@@ -19,7 +21,7 @@ export const getRotatedPoint = (
   coordY: number,
   angle: number,
   scale: number
-) => {
+): XYCoordinateProps => {
   const scaledXCoord = coordX * scale;
   const scaledYCoord = coordY * scale;
 
@@ -35,7 +37,7 @@ export const getRotatedPoint = (
 
 export const parseTransformationCoords = (
   transform: string
-) => {
+): TransformationProps | null => {
   const match = transform.match(/rotate\(([-\d.]+)\s+([-\d.]+)\s+([-\d.]+)\)/);
   if (match) {
     return {
@@ -48,11 +50,11 @@ export const parseTransformationCoords = (
   return null;
 }
 
-export const applyTransformationCoords = (point, { 
-  angle,
-  centerX,
-  centerY 
-}) => {
+export const applyTransformationCoords = (
+  point: XYCoordinateProps,
+  transformations: TransformationProps, 
+  ): XYCoordinateProps => {
+  const { angle, centerX, centerY } = transformations;
   const dx = point.x - centerX;
   const dy = point.y - centerY;
   const radians = (angle * Math.PI) / 180;

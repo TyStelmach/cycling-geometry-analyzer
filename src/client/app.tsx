@@ -1,36 +1,30 @@
-import { useEffect, useState, useCallback } from 'preact/hooks'
+import { useEffect, useState } from 'preact/hooks'
 import './app.css';
 
-import Workspace from './components/Workspace'
-import ControlPanel from './components/Controlpanel';
-
+import { createStateUpdater } from './utils/state';
+import Workspace from './components/Workspace/Workspace'
+import { FrameStateObjProps, StemStateObjProps } from '../types';
 
 const App = () => {
-
   // Grid Information
   const PIXELS_PER_MM = 3;
   const GRID_SIZE = 600;
   const GRID_CENTER = GRID_SIZE / 2;
 
-  const [frame, setFrame] = useState({
+  const [frame, setFrame] = useState<FrameStateObjProps>({
     id: 'frame-1',
     headtubeAngle: 73,
   });
 
-  const [stem, setStem] = useState({
+  const [stem, setStem] = useState<StemStateObjProps>({
     id: 'stem-1',
     length: 100,
     angle: 6,
     stackHeight: 0,
-  })
+  });
 
-  const updateStem = (id, field, value) => {
-    setStem(stem.id === id ? { ...stem, [field]: value } : stem);
-  }
-
-  const updateFrame = (id, field, value) => {
-    setFrame(frame.id === id ? { ...frame, [field]: value } : frame);
-  }
+  const updateStem = createStateUpdater(stem, setStem);
+  const updateFrame = createStateUpdater(frame, setFrame);
 
   useEffect(() => {
     console.log(stem);  // This will log the updated state after it changes.

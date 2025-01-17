@@ -1,8 +1,10 @@
 import { FunctionComponent } from 'preact';
 import { drawSpacersOnScreen } from '../../utils/drawings';
 import Spacer from './Spacer';
-const SpacerStack: FunctionComponent = ({
-  totalHeight,
+import { SpacerProps } from './SpacerTypes';
+
+const SpacerStack: FunctionComponent<SpacerProps> = ({
+  totalHeight = 0,
   x,
   y,
   width,

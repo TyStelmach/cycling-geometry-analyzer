@@ -10,7 +10,7 @@ import { getSpacersForSize } from './calculations';
  * @param (number) totalHeight - The stackheight in the workspace (in mm)
  * @returns number[] - Spacers required sorted in descending order
  */
-export const drawSpacersOnScreen = (totalHeight: number) => {
+export const drawSpacersOnScreen = (totalHeight: number): number[] => {
   const spacers: number[] = [];
 
   // Add as many x-large (max) spacers to the stack (20mm)
@@ -40,4 +40,4 @@ export const drawSpacersOnScreen = (totalHeight: number) => {
   spacers.push(...new Array(totalHeight).fill(1));
 
   return spacers.sort((a, b) => a - b);
-}
+};

@@ -1,6 +1,7 @@
 import { FunctionComponent } from 'preact';
+import { TextInputProps } from './InputTypes';
 
-const TextInput: FunctionComponent = ({
+const TextInput: FunctionComponent<TextInputProps> = ({
   name,
   value,
   type,

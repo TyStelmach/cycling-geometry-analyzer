@@ -1,11 +1,11 @@
-type ConversionFunction = (mm: number) => number;
+import { StemStateObjProps, XYCoordinateProps } from '../../types';
 
 /**
  * Converts a mm value into pixels, to help approximate sizes on screen
  * @param mm - Number - the mm number to convert
  * @returns approximate px value
  */
-export const convertMmToPixels = (mm: number, ratio: number = 3) => mm * ratio;
+export const convertMmToPixels = (mm: number, ratio: number = 3): number => mm * ratio;
 
 /**
  * Calculates the horizontal reach of a stem based on it's length and angle
@@ -17,9 +17,9 @@ export const convertMmToPixels = (mm: number, ratio: number = 3) => mm * ratio;
  * @param (number) angleInDegrees - Angle of the stem in the workspace (in degrees)
  * @returns (number) the horizontal reach length of the stem.
  */
-export const calculateStemReach = (length: number, angleInDegrees: number) => {
-  const angleInRadius = (angleInDegrees * Math.PI) / 180;
-  return Math.cos(angleInRadius) * length;
+export const calculateStemReach = (length: number, angleInDegrees: number): number => {
+  const angleInRadians = (angleInDegrees * Math.PI) / 180;
+  return Math.cos(angleInRadians) * length;
 };
 
 /**
@@ -33,14 +33,15 @@ export const calculateStemReach = (length: number, angleInDegrees: number) => {
 export const calculateStackOffset = (
   stackHeight: number, 
   headtubeAngle: number, 
-) => {
-  const angleInRadius = ((90 - headtubeAngle) * Math.PI / 100);
+): XYCoordinateProps => {
+  const angleInRadians = ((90 - headtubeAngle) * Math.PI / 100);
   const offset = convertMmToPixels(stackHeight);
 
   return {
-    x: 0,
-    y: 0
+    x: -(Math.sin(angleInRadians) * offset),
+    y: -(Math.cos(angleInRadians) * offset)
   };
+   
 };
 
 /**
@@ -49,7 +50,10 @@ export const calculateStackOffset = (
  * @param (number) height - the total project stack height
  * @returns number[] - Array of spacers needed to reach stack height
  */
-export const getSpacersForSize = (size: number, height: number): number[] => {
+export const getSpacersForSize = (
+  size: number,
+  height: number
+): number[] => {
   const count = Math.floor(height / size);
   return new Array(count).fill(size);
 };
@@ -62,12 +66,12 @@ export const getSpacersForSize = (size: number, height: number): number[] => {
  * @returns (Object) The various coordinates needed to map a stem in the workspace 
  */
 export const calculateStemCoords = (
-  stem,
+  stem: StemStateObjProps,
   gridCenter: number,
 ) => {
   const stemReach = calculateStemReach(stem.length, stem.angle);
-  const stemAngleInRadius = (stem.angle * Math.PI) / 180;
-  const stemStack = Math.sin(stemAngleInRadius) * stem.length;
+  const stemAngleInRadians = (stem.angle * Math.PI) / 180;
+  const stemStack = Math.sin(stemAngleInRadians) * stem.length;
   const stemHeight = convertMmToPixels(10);
 
   const stemCollarCenterLine = {
@@ -93,4 +97,4 @@ export const calculateStemCoords = (
     },
     stemReach
   }
-}
+};

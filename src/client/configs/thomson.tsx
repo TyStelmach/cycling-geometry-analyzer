@@ -1,14 +1,7 @@
+import { StemConfigProps } from "../../types";
 
-// TODO: Replace with Database and REST Calls
-
-/*
-  109 mm = 412px
-  100 mm = 377px
-  */
-
-
-  const Thomson = {
-    name: 'Thomson Elite X4',
+const Thomson: StemConfigProps = {
+  name: 'Thomson Elite X4',
   exactLength: 165,
   exactHeight: 54,
   faceLength: 38.1,
@@ -19,7 +12,7 @@
   angle: 0,
   diagrams: {
     face: {
-      path: 'public/diagrams/thomsonElite-front.svg',
+      path: '/diagrams/thomsonElite-front.svg',
       width: 400,  // actual SVG dimensions
       height: 400,
       connections: {
@@ -29,7 +22,7 @@
       }
     },
     collar: {
-      path: 'public/diagrams/thomsonElite-back.svg',
+      path: '/diagrams/thomsonElite-back.svg',
       width: 300,  // actual SVG dimensions
       height: 300,
       connections: {
@@ -41,4 +34,4 @@
   }
 };
   
-  export default Thomson;
+export default Thomson;

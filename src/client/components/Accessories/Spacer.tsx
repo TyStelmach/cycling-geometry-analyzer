@@ -1,7 +1,8 @@
 import { FunctionComponent } from 'preact';
+import { SpacerProps } from './SpacerTypes';
 
-const Spacer: FunctionComponent = ({
-  height,
+const Spacer: FunctionComponent<SpacerProps> = ({
+  height = 0,
   x,
   y,
   width,

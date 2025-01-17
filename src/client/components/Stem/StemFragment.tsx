@@ -1,7 +1,9 @@
+import { FunctionComponent } from 'preact';
 import { getRotatedPoint, parseTransformationCoords, applyTransformationCoords } from '../../utils/cartesianCoords';
+import { StemFragmentProps } from './StemTypes';
 import SpacerStack from '../Accessories/SpacerStack';
 
-const StemFragment = ({
+const StemFragment: FunctionComponent<StemFragmentProps> = ({
   position,
   x,
   y,
@@ -14,6 +16,7 @@ const StemFragment = ({
   config,
   stem
 }) => {
+  console.log(config, stem)
   const svgWidth = position === 'collar' ? config.collarLength : config.faceLength;
   const svgHeight = config.exactHeight;
   const width = svgWidth * scale;
@@ -23,14 +26,12 @@ const StemFragment = ({
   const initialPoint1 = getRotatedPoint(x, y, connectionPoint1.x, connectionPoint1.y, rotation, scale);
   const initialPoint2 = getRotatedPoint(x, y, connectionPoint2.x, connectionPoint2.y, rotation, scale);
 
-  let transformedPoint = { x: initialPoint1.x, y: initialPoint1.y };
-  let transformedPoint2 = { x: initialPoint2.x, y: initialPoint2.y };
-
   if (additionalTransformation) {
     const transform = parseTransformationCoords(additionalTransformation);
     if (transform) {
-      transformedPoint = applyTransformationCoords(initialPoint1, transform);
-      transformedPoint2 = applyTransformationCoords(initialPoint2, transform);
+      // Transformed Point 1 & 2
+      applyTransformationCoords(initialPoint1, transform);
+      applyTransformationCoords(initialPoint2, transform);
     }
   }
 

@@ -5,5 +5,5 @@ import './index.css'
 
 (async () => {
   const root = document.getElementById('app');
-  render(<App />, root)
+  if (root) render(<App />, root)
 })();

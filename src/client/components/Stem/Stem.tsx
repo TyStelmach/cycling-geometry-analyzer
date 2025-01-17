@@ -1,8 +1,9 @@
 import { FunctionComponent } from 'preact';
-import { calculateStackOffset, calculateStemCoords } from '../../utils/calculations';
+import { calculateStemCoords } from '../../utils/calculations';
+import { StemComponentProps } from './StemTypes';
 import MergedStemFragments from './MergedStemFragments';
 
-const Stem: FunctionComponent = ({
+const Stem: FunctionComponent<StemComponentProps> = ({
   stem,
   frame,
   config,
@@ -11,7 +12,8 @@ const Stem: FunctionComponent = ({
   gridRatio
 }) => {
   const stemCoords = calculateStemCoords(stem, gridCenter);
-  const stemStackOffset = calculateStackOffset(stem.stackHeight, frame.headtubeAngle);
+  // Stem does not offset vertically with stack change
+  const stemStackOffset = {x: 0, y: 0};
 
   const mainTransformation = `translate(${stemStackOffset.x} ${stemStackOffset.y}) 
     rotate(${frame.headtubeAngle - 90} ${stemCoords.collar.center.x} ${stemCoords.collar.center.y})`;
@@ -42,6 +44,8 @@ const Stem: FunctionComponent = ({
           connectionPoint1: config.diagrams.collar.connections.top,
           connectionPoint2: config.diagrams.collar.connections.bottom,
           floorPoint1: config.diagrams.collar.connections.floor,
+          config: config,
+          stem: stem,
         }}
         fragment2={{
           position: 'face',
@@ -53,6 +57,8 @@ const Stem: FunctionComponent = ({
           connectionPoint2: config.diagrams.face.connections.bottom,
           additionalTransformation: faceTransformation,
           floorPoint1: config.diagrams.face.connections.floor,
+          config: config,
+          stem: stem,
         }}
       />
     </g>
