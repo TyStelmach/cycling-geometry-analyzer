@@ -1,40 +1,46 @@
-import { useEffect, useState, useCallback } from 'preact/hooks'
-import './app.css'
+import { useEffect, useState } from 'preact/hooks'
+import './app.css';
 
-import StemComponent from './components/StemComponent'
-import WorkspaceComponent from './components/WorkspaceComponent'
-import SliderInput from './components/inputs/SliderInput'
+import { createStateUpdater } from './utils/state';
+import Workspace from './components/Workspace/Workspace'
+import { FrameStateObjProps, StemStateObjProps } from '../types';
 
+const App = () => {
+  // Grid Information
+  const PIXELS_PER_MM = 3;
+  const GRID_SIZE = 600;
+  const GRID_CENTER = GRID_SIZE / 2;
 
-const App = ({
-  stemData,
-}) => {
-  const [stemFormValues, setStemFormValues] = useState({angle: 0});
+  const [frame, setFrame] = useState<FrameStateObjProps>({
+    id: 'frame-1',
+    headtubeAngle: 73,
+  });
 
-  const handleSliderChange = (name, value) => {
-    setStemFormValues({ ...stemFormValues, [name]: value})
-  };
+  const [stem, setStem] = useState<StemStateObjProps>({
+    id: 'stem-1',
+    length: 100,
+    angle: 6,
+    stackHeight: 0,
+  });
+
+  const updateStem = createStateUpdater(stem, setStem);
+  const updateFrame = createStateUpdater(frame, setFrame);
 
   useEffect(() => {
-    // console.log({...stemData, ...stemFormValues})
-  }, [stemFormValues]);
-
+    console.log(stem);  // This will log the updated state after it changes.
+    console.log(frame)
+  }, [stem, frame]);
   return (
     <div class="app-wrapper">
-      <div class="workspace-wrapper">
-        <WorkspaceComponent />
-        <StemComponent stemData={{...stemData, ...stemFormValues}} /> 
-      </div>
-
-      <div class="form">
-        <SliderInput 
-          name="angle"
-          min="-30"
-          max="30"
-          value={stemFormValues?.angle || 0}
-          onChange={handleSliderChange}
-        />  
-      </div>  
+      <Workspace
+        stem={stem}
+        frame={frame}
+        updateStem={updateStem}
+        updateFrame={updateFrame}
+        gridSize={GRID_SIZE}
+        gridCenter={GRID_CENTER}
+        gridRatio={PIXELS_PER_MM}
+      />
     </div>
   )
 }
