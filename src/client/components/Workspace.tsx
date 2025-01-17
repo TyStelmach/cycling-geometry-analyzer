@@ -1,10 +1,9 @@
 import { FunctionComponent } from 'preact';
-import { useEffect } from 'preact/hooks';
 import { calculateStemCoords } from '../utils/calculations';
 import { drawSpacersOnScreen } from '../utils/drawings';
 import ControlPanel from './Controlpanel';
 import CartesianGrid from './CartesianGrid';
-import Stem from './stem/Stem';
+import Stem from './Stem/Stem';
 import Thomson from '../configs/thomson';
 
 const Workspace: FunctionComponent = ({
