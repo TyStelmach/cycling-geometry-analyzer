@@ -8,7 +8,8 @@ const MergedStemFragments: FunctionComponent<MergedFragmentsProps> = ({
   config,
   fragment1,
   fragment2,
-  stem
+  stem,
+  theme
 }) => {
   const { 
     position: position1, 
@@ -70,6 +71,7 @@ const MergedStemFragments: FunctionComponent<MergedFragmentsProps> = ({
         floorPoint1={floor1}
         config={config}
         stem={stem}
+        theme={theme}
       />
 
       {/* Render Stem Face */}
@@ -85,26 +87,27 @@ const MergedStemFragments: FunctionComponent<MergedFragmentsProps> = ({
         additionalTransformation={additionalTransformation}
         config={config}
         stem={stem}
+        theme={theme}
       /> 
 
       {/* Render Body Lines using transformed coordinates */}
       <path
       d={drawBezierCurveConnection(point1, transformedPoint2, stem.angle)}
-      stroke="#FF0000"
+      stroke={stem.color}
       strokeWidth={1 * scale1}
       fill="none"
       className="connection-line"
     />
     <path
       d={drawBezierCurveConnection(point1B, transformedPoint2B, stem.angle)}
-      stroke="#FF0000"
+      stroke={stem.color}
       strokeWidth={1 * scale1}
       fill="none"
       className="connection-line"
     />
     <path
       d={drawBezierCurveConnection(pointFloor1, transformedPointFloor, stem.angle)}
-      stroke="#FF0000"
+      stroke={stem.color}
       strokeWidth={1 * scale1}
       fill="none"
       className="connection-line debug"

@@ -5,4 +5,5 @@ export interface SpacerProps {
   y: number;
   width: number;
   rotation: number;
+  theme: string;
 }

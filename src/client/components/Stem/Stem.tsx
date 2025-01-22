@@ -4,12 +4,15 @@ import { StemComponentProps } from './StemTypes';
 import MergedStemFragments from './MergedStemFragments';
 
 const Stem: FunctionComponent<StemComponentProps> = ({
+  key,
+  className,
   stem,
   frame,
   config,
   gridSize,
   gridCenter,
-  gridRatio
+  gridRatio,
+  theme,
 }) => {
   const stemCoords = calculateStemCoords(stem, gridCenter);
   // Stem does not offset vertically with stack change
@@ -20,7 +23,7 @@ const Stem: FunctionComponent<StemComponentProps> = ({
   const faceTransformation = `rotate(${-stem.angle} ${stemCoords.face.center.x} ${stemCoords.face.center.y})`;
 
   return (
-    <g transform={mainTransformation}>
+    <g transform={mainTransformation} key={`newStem-${key}`} className={className}>
       {/* Reference line */}
       <line
         x1={stemCoords.collar.center.x}
@@ -33,8 +36,10 @@ const Stem: FunctionComponent<StemComponentProps> = ({
       />
 
       <MergedStemFragments
+        className={className}
         config={config}
         stem={stem}
+        theme={theme}
         fragment1={{
           position: 'collar',
           x: stemCoords.collar.center.x,
@@ -46,6 +51,7 @@ const Stem: FunctionComponent<StemComponentProps> = ({
           floorPoint1: config.diagrams.collar.connections.floor,
           config: config,
           stem: stem,
+          theme: theme,
         }}
         fragment2={{
           position: 'face',
@@ -59,6 +65,7 @@ const Stem: FunctionComponent<StemComponentProps> = ({
           floorPoint1: config.diagrams.face.connections.floor,
           config: config,
           stem: stem,
+          theme: theme,
         }}
       />
     </g>

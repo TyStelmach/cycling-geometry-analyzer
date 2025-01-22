@@ -1,13 +1,38 @@
-import { HasId } from '../../types';
+import { HasId, StateUpdater } from '../../types';
 
-/**
- * Updates the state values of current objects on the workspace (Stem / Frame)
- * @param state - Object to update
- * @param setState - State updating function
- * @returns Emits an update to the selected state obejct
- */
 export const createStateUpdater = <T extends HasId>(
-  state: T,
-  setState: (value: T) => void
-) => (id: T['id'], field: keyof T, value: T[keyof T]) =>
-  setState(state.id === id ? { ...state, [field]: value } : state);
+  state: T | T[],
+  setState: (value: T | T[]) => void
+): StateUpdater<T> => {
+  return {
+    updateField: (id, field, value) => {
+      if (Array.isArray(state)) {
+        setState(
+          state.map((item) =>
+            item.id === id ? { ...item, [field]: value } : item
+          )
+        );
+      } else {
+        setState(state.id === id ? { ...state, [field]: value } : state);
+      }
+    },
+    updateObject: (newObject) => {
+      if (Array.isArray(state)) {
+        setState([...state, newObject]);
+      } else {
+        setState(state.id === newObject.id ? newObject : state);
+      }
+    },
+    removeObject: (id) => {
+      if (Array.isArray(state)) {
+        const filteredStems = state.filter(item => item.id !== id);        
+        const reindexedStems = filteredStems.map((stem, index) => ({
+          ...stem,
+          id: `stem-${index}`
+        }));
+
+        setState(reindexedStems);
+      }
+    }
+  };
+};

@@ -18,6 +18,7 @@ export interface StemStateObjProps {
   id: string;
   length: number;
   stackHeight: number;
+  color: string;
 }
 
 export interface FrameStateObjProps {
