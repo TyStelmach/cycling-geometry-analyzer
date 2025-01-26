@@ -73,9 +73,12 @@ export const calculateStemCoords = (
   const stemAngleInRadians = (stem.angle * Math.PI) / 180;
   const stemStack = Math.sin(stemAngleInRadians) * stem.length;
   const stemHeight = convertMmToPixels(10);
+  
+  // Position the collar point at 1/4 of the grid width instead of center
+  const originX = gridCenter / 2;  // This puts the origin at 1/4 of the grid width
 
   const stemCollarCenterLine = {
-    x: gridCenter - convertMmToPixels(stem.length)/2,
+    x: originX,
     y: gridCenter
   }
 

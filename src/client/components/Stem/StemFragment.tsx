@@ -4,6 +4,7 @@ import { StemFragmentProps } from './StemTypes';
 import SpacerStack from '../Accessories/SpacerStack';
 
 const StemFragment: FunctionComponent<StemFragmentProps> = ({
+  theme,
   position,
   x,
   y,
@@ -14,9 +15,8 @@ const StemFragment: FunctionComponent<StemFragmentProps> = ({
   floorPoint1,
   additionalTransformation = '',
   config,
-  stem
+  stem,
 }) => {
-  console.log(config, stem)
   const svgWidth = position === 'collar' ? config.collarLength : config.faceLength;
   const svgHeight = config.exactHeight;
   const width = svgWidth * scale;
@@ -46,7 +46,7 @@ const StemFragment: FunctionComponent<StemFragmentProps> = ({
           href={position === 'collar' ? config.diagrams.collar.path : config.diagrams.face.path}
           width={width}
           height={height}
-          className="fragment-image"
+          className={`fragment-image ${theme}`}
         />
 
         {/* Add spacers only for collar fragment */}
@@ -57,6 +57,7 @@ const StemFragment: FunctionComponent<StemFragmentProps> = ({
             y={height / 2 + bottomPoint}
             width={spacerWidth}
             rotation={0}
+            theme={theme}
           />
         )}
       </g>

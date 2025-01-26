@@ -1,4 +1,5 @@
-import { XYCoordinateProps } from '../../types';
+import { UpdateObjectFunction, UpdateFieldFunction, StemStateObjProps, XYCoordinateProps } from '../../types';
+import { NewStem, StemColors } from '../configs/defaults';
 import { getSpacersForSize } from './calculations';
 
 /**
@@ -86,4 +87,61 @@ export const drawBezierCurveConnection = (start: XYCoordinateProps, end: XYCoord
   };
   
   return `M ${start.x},${start.y} C ${cp1.x},${cp1.y} ${cp2.x},${cp2.y} ${end.x},${end.y}`;
+};
+
+/**
+ * Function for initializing a new stem from the config template
+ * @param stems - StemStateObjProps[] - the current stems in the State
+ * @param updateObject - UpdaterFunction - Add a new object to the Stems array
+ */
+export const createNewStem = (
+  stems: StemStateObjProps[],
+  updateObject: UpdateObjectFunction<StemStateObjProps>,
+) => {
+  const newStem = {
+    ...NewStem,
+    id: `stem-${stems.length}`,
+    color: stems.length === 0 ? StemColors.single : StemColors.multiple[stems.length],
+  }
+  updateObject(newStem);
+}
+
+export const removeExistingStem = (
+  stemId: string,
+  removeObject: (id: string | number) => void
+) => removeObject(stemId);
+
+/**
+ * Updates the perceived line-work color for the drawn stems based on the number
+ * of Stems drawn to the workspace
+ * 1 stem - black linework
+ * 2 stems - 1 red, 1 blue linework
+ * 3 stems - 1 red, 1 blue, 1 green linework
+ * @param stems - StemStateObjProps[] - the current stems in the State
+ * @param updateField - UpdaterFunction - Using the stem's id, update an individual field
+ */
+export const updateStemColors = (
+  stems: StemStateObjProps[],
+  updateField: UpdateFieldFunction<StemStateObjProps>,
+) => {
+  if (!stems.length) return;
+
+  if (stems.length === 1) {
+    updateField(stems[0].id, 'color', StemColors.single);
+  } else {
+    stems.forEach((stem, index) => {
+      const predictedColor = StemColors.multiple[index];
+      if (stem.color !== predictedColor) updateField(stem.id, 'color', predictedColor);
+    });
+  }
+}
+
+export const getStemTheme = (totalStems: number, index: number): string => {
+  const themeMap: Record<number, string> = {
+    0: 'theme-red',
+    1: 'theme-blue',
+    2: 'theme-green'
+  };
+
+  return totalStems > 1 ? themeMap[index] : 'theme-default';
 };

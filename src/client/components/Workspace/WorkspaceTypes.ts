@@ -13,13 +13,13 @@ export interface WorkspaceProps {
   gridSize: number;
   gridCenter: number;
   gridRatio: number;
-  updateStem: UpdateFunction<StemStateObjProps>;
+  updateStems: UpdateFunction<StemStateObjProps>;
   updateFrame: UpdateFunction<FrameStateObjProps>;
 }
 
 export interface ControlPanelProps {
-  stem: StemStateObjProps;
+  stems: StemStateObjProps[];
   frame: FrameStateObjProps;
-  updateStem: UpdateFunction<StemStateObjProps>;
+  updateStems: UpdateFunction<StemStateObjProps>;
   updateFrame: UpdateFunction<FrameStateObjProps>;
 }
