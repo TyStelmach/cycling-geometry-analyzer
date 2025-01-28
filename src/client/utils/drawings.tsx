@@ -16,34 +16,37 @@ export const drawSpacersOnScreen = (totalHeight: number): number[] => {
   const spacers: number[] = [];
 
   // Add as many x-large (max) spacers to the stack (20mm)
-  if (totalHeight >=  20) {
-    const count = Math.floor(totalHeight / 20);
-    spacers.push(...new Array(count).fill(20));
-    totalHeight -= count * 20;
+  while (totalHeight >= 20) {
+    spacers.push(20);
+    totalHeight -= 20;
   }
 
-  // Determine if any large spacers can be added (10mm)
-  if (totalHeight === 10) {
+  // Add a large spacer (10mm) if possible
+  if (totalHeight >= 10) {
     spacers.push(10);
     totalHeight -= 10;
   }
 
-  // Determine if any medium spacers can be added (5mm)
-  spacers.push(...getSpacersForSize(5, totalHeight));
-  totalHeight %= 5;
+  // Add medium spacers (5mm)
+  while (totalHeight >= 5) {
+    spacers.push(5);
+    totalHeight -= 5;
+  }
 
-  // Determine if any small spacers can be added (3mm)
-  if (totalHeight >= 3 && !spacers.includes(3)) {
+  // Add a small spacer (3mm) if possible
+  if (totalHeight >= 3) {
     spacers.push(3);
     totalHeight -= 3;
   }
 
   // Fill remaining stack height with x-small spacers (1mm)
-  spacers.push(...new Array(totalHeight).fill(1));
+  while (totalHeight > 0) {
+    spacers.push(1);
+    totalHeight -= 1;
+  }
 
   return spacers.sort((a, b) => a - b);
 };
-
 /**
  * Applies a slight Bézier curve to the conneciton points of the stem body when the angle
  * becomes extreme. This smooths out the connection point on the stem collar.
