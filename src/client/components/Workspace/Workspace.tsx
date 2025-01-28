@@ -10,21 +10,23 @@ import { getStemTheme } from '../../utils/drawings';
 const Workspace: FunctionComponent<WorkspaceProps> = ({
   stems,
   updateStems,
-  frame,
-  updateFrame,
+  frames,
+  updateFrames,
   gridSize,
   gridCenter,
   gridRatio,
+  setClickedElementId,
 }) => {
   const totalStems = stems.length;
-
+  const activeFrame = frames.length > 1 ? frames.find(frame=> frame.active) : frames[0];
   return (
-  <div>
+  <div className="workspace-panel">
       <ControlPanel
         stems={stems}
-        frame={frame}
+        frames={frames}
         updateStems={updateStems}
-        updateFrame={updateFrame}
+        updateFrames={updateFrames}
+        setClickedElementId={setClickedElementId}
       />
 
     <svg width={gridSize} height={gridSize} className='cartesian-svg'>
@@ -40,7 +42,7 @@ const Workspace: FunctionComponent<WorkspaceProps> = ({
           key={index}
           stem={stem}
           theme={getStemTheme(totalStems, index)}
-          frame={frame}
+          frame={activeFrame}
           config={Thomson}
           gridSize={gridSize}
           gridCenter={gridCenter}

@@ -13,16 +13,23 @@ export interface StemConfigProps {
   diagrams: StemConfigDiagram
 }
 
+export type ElementType = 'frame' | 'stem';
+
 export interface StemStateObjProps {
   angle: number;
   id: string;
+  name?: string,
   length: number;
   stackHeight: number;
   color: string;
+  active?: boolean
 }
 
 export interface FrameStateObjProps {
   id: string;
+  active: boolean;
+  name?: string;
+  color?: string;
   headtubeAngle: number;
 }
 

@@ -1,10 +1,13 @@
 import { FunctionComponent } from 'preact';
-import { TextInputProps } from './InputTypes';
+import { NumberInputProps } from './InputTypes';
 
-const TextInput: FunctionComponent<TextInputProps> = ({
+const NumberInput: FunctionComponent<NumberInputProps> = ({
   name,
   value,
   type,
+  step,
+  min,
+  max,
   onChange
 }) => {
 
@@ -15,10 +18,13 @@ const TextInput: FunctionComponent<TextInputProps> = ({
         type={type}
         value={value}
         name={name}
+        step={step}
+        min={min}
+        max={max}
         onChange={onChange}
       />
     </div>
   )
 }
 
-export default TextInput;
+export default NumberInput;

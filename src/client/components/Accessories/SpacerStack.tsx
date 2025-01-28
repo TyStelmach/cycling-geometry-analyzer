@@ -10,6 +10,7 @@ const SpacerStack: FunctionComponent<SpacerProps> = ({
   width,
   rotation,
   theme = 'theme-default',
+  stemColor,
 }) => {
   const spacers = drawSpacersOnScreen(totalHeight);
   let currentYAxis = y;
@@ -20,15 +21,16 @@ const SpacerStack: FunctionComponent<SpacerProps> = ({
         const spacer = (
           <Spacer
             key={index}
-            height={spacerHeight}
+            height={spacerHeight * 3}
             x={x}
             y={currentYAxis}
             width={width}
             rotation={rotation}
             theme={theme}
+            stemColor={stemColor}
           />
         );
-        currentYAxis += spacerHeight;
+        currentYAxis += spacerHeight * 3;
         return spacer;
       })}
     </g>

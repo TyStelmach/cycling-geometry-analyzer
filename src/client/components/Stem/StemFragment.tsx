@@ -2,7 +2,21 @@ import { FunctionComponent } from 'preact';
 import { getRotatedPoint, parseTransformationCoords, applyTransformationCoords } from '../../utils/cartesianCoords';
 import { StemFragmentProps } from './StemTypes';
 import SpacerStack from '../Accessories/SpacerStack';
+import { convertMmToPixels } from '../../utils/calculations';
 
+
+/**
+ * IMPORTANT *
+ * 
+ * The stem's stack height is calculated by placing the expected spacers
+ * at the floor point of the stem collar. This results in a negative value.
+ *
+ * This utilized the cartesian grid at scale (at the time 10mm is 1 square), to
+ * try and maintain realistic sizing.
+ * 
+ * stem.stackHeight is the mm value passed to it via an input, it does not need converted
+ * in this rendering. And instead is handled when offset is calculated.
+ */
 const StemFragment: FunctionComponent<StemFragmentProps> = ({
   theme,
   position,
@@ -57,6 +71,7 @@ const StemFragment: FunctionComponent<StemFragmentProps> = ({
             y={height / 2 + bottomPoint}
             width={spacerWidth}
             rotation={0}
+            stemColor={stem.color}
             theme={theme}
           />
         )}

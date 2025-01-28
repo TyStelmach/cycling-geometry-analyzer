@@ -8,18 +8,20 @@ export interface GridProps {
 }
 
 export interface WorkspaceProps {
-  stem: StemStateObjProps;
-  frame: FrameStateObjProps;
+  stems: StemStateObjProps[];
+  frames: FrameStateObjProps[];
   gridSize: number;
   gridCenter: number;
   gridRatio: number;
   updateStems: UpdateFunction<StemStateObjProps>;
-  updateFrame: UpdateFunction<FrameStateObjProps>;
+  updateFrames: UpdateFunction<FrameStateObjProps>;
+  setClickedElementId: (id: string | null) => void;
 }
 
 export interface ControlPanelProps {
   stems: StemStateObjProps[];
-  frame: FrameStateObjProps;
+  frames: FrameStateObjProps[];
   updateStems: UpdateFunction<StemStateObjProps>;
-  updateFrame: UpdateFunction<FrameStateObjProps>;
+  updateFrames: UpdateFunction<FrameStateObjProps>;
+  setClickedElementId: (id: string | null) => void;
 }

@@ -1,5 +1,5 @@
-import { UpdateObjectFunction, UpdateFieldFunction, StemStateObjProps, XYCoordinateProps } from '../../types';
-import { NewStem, StemColors } from '../configs/defaults';
+import { UpdateObjectFunction, UpdateFieldFunction, StemStateObjProps, XYCoordinateProps, FrameStateObjProps, ElementType } from '../../types';
+import { NewStem, NewFrame, StemColors } from '../configs/defaults';
 import { getSpacersForSize } from './calculations';
 
 /**
@@ -90,20 +90,34 @@ export const drawBezierCurveConnection = (start: XYCoordinateProps, end: XYCoord
 };
 
 /**
- * Function for initializing a new stem from the config template
- * @param stems - StemStateObjProps[] - the current stems in the State
- * @param updateObject - UpdaterFunction - Add a new object to the Stems array
+ * Function for initializing new elements to the workspace (frames or stems)
+ * @param type - String - the type of element to create ('frame' or 'stem')
+ * @param items - StemStateObjProps[] | FrameStateObjProps[] - the current elements in the state
+ * @param updateObject - UpdaterFunction - Add a new object to the item's array
  */
-export const createNewStem = (
-  stems: StemStateObjProps[],
-  updateObject: UpdateObjectFunction<StemStateObjProps>,
+export const initializeNewElement = <T extends StemStateObjProps | FrameStateObjProps>(
+  type: ElementType,
+  items: T[],
+  updateObject: (item: T) => void,
 ) => {
-  const newStem = {
-    ...NewStem,
-    id: `stem-${stems.length}`,
-    color: stems.length === 0 ? StemColors.single : StemColors.multiple[stems.length],
+  const itemDefault = type === 'frame' ? NewFrame : NewStem;
+  const newItem = {
+    ...itemDefault,
+    id: `${type}-${items.length}`,
+  } as T;
+
+  if (type === 'frame') {
+    // Only set the first frame to active
+    (newItem as FrameStateObjProps).active = items.length === 0;
   }
-  updateObject(newStem);
+
+  if (type === 'stem') {
+    (newItem as StemStateObjProps).color = items.length === 0 
+      ? StemColors.single 
+      : StemColors.multiple[items.length];
+  }
+ 
+  updateObject(newItem);
 }
 
 export const removeExistingStem = (
@@ -145,3 +159,21 @@ export const getStemTheme = (totalStems: number, index: number): string => {
 
   return totalStems > 1 ? themeMap[index] : 'theme-default';
 };
+
+/**
+ * Toggles the 'active' frame on the workspace by setting false to all elements in the array
+ */
+export const toggleFrameAngles = (
+  frames: FrameStateObjProps[],
+  clickedFrame: string,
+  updateField: UpdateFieldFunction<FrameStateObjProps>,
+) => {
+  // Deactivate current active frame
+  const activeFrame = frames.find(frame => frame.active);
+  if (activeFrame) updateField(activeFrame.id, 'active', false);
+  
+  // Small delay before activating new frame
+  setTimeout(() => {
+    updateField(clickedFrame, 'active', true);
+  }, 0);
+}
