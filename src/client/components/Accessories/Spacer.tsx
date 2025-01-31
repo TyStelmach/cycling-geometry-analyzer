@@ -7,16 +7,18 @@ const Spacer: FunctionComponent<SpacerProps> = ({
   y,
   width,
   rotation,
+  theme,
+  stemColor
 }) => {
   return (
     <rect
-      className='stem-spacer'
+      className={`stem-spacer ${theme}`}
       x={x - width / 2}
       y={y}
       width={width}
       height={height}
-      fill='#cccccc'
-      stroke='#999999'
+      fill='transparent'
+      stroke={stemColor}
       strokeWidth={1}
       transform={`rotate(${rotation} ${x} ${y})`}
     />

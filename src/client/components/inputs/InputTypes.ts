@@ -1,12 +1,19 @@
 import { JSX } from "preact/jsx-runtime";
 
-export interface TextInputProps {
+export interface NumberInputProps {
   name: string;
-  value: string | number;
+  value: number;
   type: string;
   step: number;
   min: number;
   max: number;
+  onChange: (e: JSX.TargetedEvent<HTMLInputElement, Event>) => void;
+}
+
+export interface TextInputProps {
+  name: string;
+  value: string | number | undefined;
+  type: string;
   onChange: (e: JSX.TargetedEvent<HTMLInputElement, Event>) => void;
 }
 

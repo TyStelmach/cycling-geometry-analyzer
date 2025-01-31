@@ -1,10 +1,10 @@
 import { useEffect, useState } from 'preact/hooks'
 import './app.css';
 
-import { createStateUpdater } from './utils/state';
+import { createStateUpdater, toggleActiveState } from './utils/state';
 import Workspace from './components/Workspace/Workspace'
 import { FrameStateObjProps, StemStateObjProps } from '../types';
-import { createNewStem, updateStemColors } from './utils/drawings';
+import { initializeNewElement, updateStemColors } from './utils/drawings';
 
 const App = () => {
   // Grid Information
@@ -12,35 +12,45 @@ const App = () => {
   const GRID_SIZE = 600;
   const GRID_CENTER = GRID_SIZE / 2;
 
-  const [frame, setFrame] = useState<FrameStateObjProps>({
-    id: 'frame-1',
-    headtubeAngle: 73,
-  });
-
+  const [frames, setFrames] = useState<FrameStateObjProps[]>([]);
   const [stems, setStems] = useState<StemStateObjProps[]>([]);
+  const [clickedElementId, setClickedElementId] = useState<string | null>(null);
 
   const updateStems = createStateUpdater(stems, setStems);
-  const updateFrame = createStateUpdater(frame, setFrame);
+  const updateFrames = createStateUpdater(frames, setFrames);
 
   useEffect(() => {
-    console.log(stems, stems.length);  // This will log the updated state after it changes.
-  }, [stems, frame]);
+    console.log(clickedElementId, frames)
+
+  }, [stems, frames]);
 
   useEffect(() => {
-    console.log('hello')
     if (stems.length === 0) {
-      createNewStem(stems, updateStems.updateObject);
+      initializeNewElement('frame', frames, updateFrames.updateObject)
+      initializeNewElement('stem', stems, updateStems.updateObject);
+
     } else {
       updateStemColors(stems, updateStems.updateField);
     }
   }, [stems.length])
+
+  useEffect(() => {
+    if (clickedElementId) {
+      toggleActiveState(frames, clickedElementId, setFrames);
+    }
+
+  }, [clickedElementId]);
+  
+  
+
   return (
     <div class="app-wrapper">
       <Workspace
         stems={stems}
-        frame={frame}
+        frames={frames}
         updateStems={updateStems}
-        updateFrame={updateFrame}
+        updateFrames={updateFrames}
+        setClickedElementId={setClickedElementId}
         gridSize={GRID_SIZE}
         gridCenter={GRID_CENTER}
         gridRatio={PIXELS_PER_MM}

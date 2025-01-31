@@ -1,5 +1,5 @@
 import { FunctionComponent } from 'preact';
-import { calculateStemCoords } from '../../utils/calculations';
+import { calculateStemCoords, calculateStackOffset } from '../../utils/calculations';
 import { StemComponentProps } from './StemTypes';
 import MergedStemFragments from './MergedStemFragments';
 
@@ -16,12 +16,12 @@ const Stem: FunctionComponent<StemComponentProps> = ({
 }) => {
   const stemCoords = calculateStemCoords(stem, gridCenter);
   // Stem does not offset vertically with stack change
-  const stemStackOffset = {x: 0, y: 0};
+  const stemStackOffset = calculateStackOffset(stem.stackHeight, frame.headtubeAngle);
 
   const mainTransformation = `translate(${stemStackOffset.x} ${stemStackOffset.y}) 
-    rotate(${frame.headtubeAngle - 90} ${stemCoords.collar.center.x} ${stemCoords.collar.center.y})`;
+                              rotate(${frame.headtubeAngle - 90} ${stemCoords.collar.center.x} ${stemCoords.collar.center.y})`;
+  
   const faceTransformation = `rotate(${-stem.angle} ${stemCoords.face.center.x} ${stemCoords.face.center.y})`;
-
   return (
     <g transform={mainTransformation} key={`newStem-${key}`} className={className}>
       {/* Reference line */}

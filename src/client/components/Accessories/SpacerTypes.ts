@@ -6,4 +6,5 @@ export interface SpacerProps {
   width: number;
   rotation: number;
   theme: string;
+  stemColor: string;
 }

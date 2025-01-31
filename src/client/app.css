@@ -21,38 +21,73 @@
   opacity: 75%;
 }
 
-.control-panel-wrapper {
-  display: flex;
-  gap: 1rem;
+.workspace-panel {
+  border: 1px solid #000;
+  padding: 0rem 1rem 1rem;
 }
 
 .control-panel {
-  border: 1px solid #000;
-  padding: 0rem 1rem 1rem;
+  border-top: 1px solid #000;
+  padding-top: 1rem;;
+  display: flex;
   margin: 1rem 0;
 }
 
-.control-panel.theme-red {
-  border:1px solid #FF0000;
+.control-panel.control-buttons {
+  justify-content: end;
 }
 
-.control-panel.theme-red h3{
+.control-panel button {
+  margin: 0 0.5rem;
+}
+
+.frame-metrics, .stem-metrics {
+  display: flex;
+}
+.stem-metrics {
+  flex: 1;
+}
+
+.multiframe {
+  flex-direction: row;
+  padding: 0 1rem;
+}
+
+.multistem { 
+  display: flex;
+  flex: 1;
+  flex-direction: column;
+  border-left: 1px solid #000;
+  padding: 0 1rem;
+  border-top:5px solid #000;
+}
+
+.frame-metrics {
+  flex-direction: column;
+  border-top:5px solid #000;
+}
+
+.multistem.theme-red {
+  border-top:5px solid #FF0000;
+}
+
+.multistem.theme-red h3{
   color:#FF0000
 }
 
-.control-panel.theme-blue {
-  border:1px solid #0000FF;
+.multistem.theme-blue {
+  border-top:5px solid #0000FF;
 }
 
-.control-panel.theme-blue h3{
+.multistem.theme-blue h3{
   color:#0000FF;
 }
 
-.control-panel.theme-green {
-  border:1px solid #006401;
+.multistem.theme-green {
+  border-top:5px solid #006401;
 }
 
-.control-panel.theme-green h3{
+.multistem.theme-green h3{
   color:#006401;
 }
 
@@ -66,4 +101,18 @@
 
 .fragment-image.theme-blue {
   filter: invert(8%) sepia(98%) saturate(7458%) hue-rotate(248deg) brightness(97%) contrast(143%); /* Blue */
+}
+
+.cp-input {
+  display: flex;
+  flex-direction: column;
+  margin: 0.5rem 0;;
+}
+
+.cp-input input {
+  width: 100%;
+  padding: 4px 8px;
+  border: 1px solid #ccc;
+  border-radius: 4px;
+  max-width: 80%;
 }

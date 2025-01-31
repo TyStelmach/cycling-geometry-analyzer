@@ -1,5 +1,5 @@
-import { UpdateObjectFunction, UpdateFieldFunction, StemStateObjProps, XYCoordinateProps } from '../../types';
-import { NewStem, StemColors } from '../configs/defaults';
+import { UpdateObjectFunction, UpdateFieldFunction, StemStateObjProps, XYCoordinateProps, FrameStateObjProps, ElementType } from '../../types';
+import { NewStem, NewFrame, StemColors } from '../configs/defaults';
 import { getSpacersForSize } from './calculations';
 
 /**
@@ -16,34 +16,37 @@ export const drawSpacersOnScreen = (totalHeight: number): number[] => {
   const spacers: number[] = [];
 
   // Add as many x-large (max) spacers to the stack (20mm)
-  if (totalHeight >=  20) {
-    const count = Math.floor(totalHeight / 20);
-    spacers.push(...new Array(count).fill(20));
-    totalHeight -= count * 20;
+  while (totalHeight >= 20) {
+    spacers.push(20);
+    totalHeight -= 20;
   }
 
-  // Determine if any large spacers can be added (10mm)
-  if (totalHeight === 10) {
+  // Add a large spacer (10mm) if possible
+  if (totalHeight >= 10) {
     spacers.push(10);
     totalHeight -= 10;
   }
 
-  // Determine if any medium spacers can be added (5mm)
-  spacers.push(...getSpacersForSize(5, totalHeight));
-  totalHeight %= 5;
+  // Add medium spacers (5mm)
+  while (totalHeight >= 5) {
+    spacers.push(5);
+    totalHeight -= 5;
+  }
 
-  // Determine if any small spacers can be added (3mm)
-  if (totalHeight >= 3 && !spacers.includes(3)) {
+  // Add a small spacer (3mm) if possible
+  if (totalHeight >= 3) {
     spacers.push(3);
     totalHeight -= 3;
   }
 
   // Fill remaining stack height with x-small spacers (1mm)
-  spacers.push(...new Array(totalHeight).fill(1));
+  while (totalHeight > 0) {
+    spacers.push(1);
+    totalHeight -= 1;
+  }
 
   return spacers.sort((a, b) => a - b);
 };
-
 /**
  * Applies a slight Bézier curve to the conneciton points of the stem body when the angle
  * becomes extreme. This smooths out the connection point on the stem collar.
@@ -90,20 +93,34 @@ export const drawBezierCurveConnection = (start: XYCoordinateProps, end: XYCoord
 };
 
 /**
- * Function for initializing a new stem from the config template
- * @param stems - StemStateObjProps[] - the current stems in the State
- * @param updateObject - UpdaterFunction - Add a new object to the Stems array
+ * Function for initializing new elements to the workspace (frames or stems)
+ * @param type - String - the type of element to create ('frame' or 'stem')
+ * @param items - StemStateObjProps[] | FrameStateObjProps[] - the current elements in the state
+ * @param updateObject - UpdaterFunction - Add a new object to the item's array
  */
-export const createNewStem = (
-  stems: StemStateObjProps[],
-  updateObject: UpdateObjectFunction<StemStateObjProps>,
+export const initializeNewElement = <T extends StemStateObjProps | FrameStateObjProps>(
+  type: ElementType,
+  items: T[],
+  updateObject: (item: T) => void,
 ) => {
-  const newStem = {
-    ...NewStem,
-    id: `stem-${stems.length}`,
-    color: stems.length === 0 ? StemColors.single : StemColors.multiple[stems.length],
+  const itemDefault = type === 'frame' ? NewFrame : NewStem;
+  const newItem = {
+    ...itemDefault,
+    id: `${type}-${items.length}`,
+  } as T;
+
+  if (type === 'frame') {
+    // Only set the first frame to active
+    (newItem as FrameStateObjProps).active = items.length === 0;
   }
-  updateObject(newStem);
+
+  if (type === 'stem') {
+    (newItem as StemStateObjProps).color = items.length === 0 
+      ? StemColors.single 
+      : StemColors.multiple[items.length];
+  }
+ 
+  updateObject(newItem);
 }
 
 export const removeExistingStem = (
@@ -145,3 +162,21 @@ export const getStemTheme = (totalStems: number, index: number): string => {
 
   return totalStems > 1 ? themeMap[index] : 'theme-default';
 };
+
+/**
+ * Toggles the 'active' frame on the workspace by setting false to all elements in the array
+ */
+export const toggleFrameAngles = (
+  frames: FrameStateObjProps[],
+  clickedFrame: string,
+  updateField: UpdateFieldFunction<FrameStateObjProps>,
+) => {
+  // Deactivate current active frame
+  const activeFrame = frames.find(frame => frame.active);
+  if (activeFrame) updateField(activeFrame.id, 'active', false);
+  
+  // Small delay before activating new frame
+  setTimeout(() => {
+    updateField(clickedFrame, 'active', true);
+  }, 0);
+}

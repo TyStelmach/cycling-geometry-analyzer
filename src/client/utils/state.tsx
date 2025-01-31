@@ -1,38 +1,58 @@
-import { HasId, StateUpdater } from '../../types';
+import { HasId, StateUpdater, UpdateObjectFunction } from '../../types';
 
 export const createStateUpdater = <T extends HasId>(
   state: T | T[],
-  setState: (value: T | T[]) => void
+  setState: (value: T[]) => void
 ): StateUpdater<T> => {
   return {
     updateField: (id, field, value) => {
-      if (Array.isArray(state)) {
-        setState(
-          state.map((item) =>
-            item.id === id ? { ...item, [field]: value } : item
-          )
+      const updateFn = (prevState: T[]) => 
+        prevState.map((item) =>
+          item.id === id ? { ...item, [field]: value } : item
         );
-      } else {
-        setState(state.id === id ? { ...state, [field]: value } : state);
-      }
+      
+      setState(Array.isArray(state) ? updateFn(state) : [updateFn([state])[0]]);
     },
     updateObject: (newObject) => {
-      if (Array.isArray(state)) {
-        setState([...state, newObject]);
-      } else {
-        setState(state.id === newObject.id ? newObject : state);
-      }
+      const updateFn = (prevState: T[]) => {
+        const existingIndex = prevState.findIndex(item => item.id === newObject.id);
+        
+        if (existingIndex !== -1) {
+          // Replace existing item
+          const updatedState = [...prevState];
+          updatedState[existingIndex] = newObject;
+          return updatedState;
+        } else {
+          // Add new item
+          return [...prevState, newObject];
+        }
+      };
+
+      setState(Array.isArray(state) ? updateFn(state) : [newObject]);
     },
     removeObject: (id) => {
-      if (Array.isArray(state)) {
-        const filteredStems = state.filter(item => item.id !== id);        
-        const reindexedStems = filteredStems.map((stem, index) => ({
-          ...stem,
-          id: `stem-${index}`
+      const updateFn = (prevState: T[]) => {
+        const filteredItems = prevState.filter(item => item.id !== id);        
+        return filteredItems.map((item, index) => ({
+          ...item,
+          id: `${typeof item === 'object' && 'type' in item ? item.type : 'item'}-${index}`
         }));
+      };
 
-        setState(reindexedStems);
-      }
+      setState(Array.isArray(state) ? updateFn(state) : []);
     }
   };
+};
+
+export const toggleActiveState = <T extends { id: string; active: boolean }>(
+  items: T[],
+  clickedElementId: string,
+  setState: (items: T[]) => void
+) => {
+  const updatedItems = items.map(item => ({
+    ...item,
+    active: item.id === clickedElementId
+  }));
+
+  setState(updatedItems);
 };

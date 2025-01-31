@@ -31,17 +31,18 @@ export const calculateStemReach = (length: number, angleInDegrees: number): numb
  */
 
 export const calculateStackOffset = (
-  stackHeight: number, 
-  headtubeAngle: number, 
+  stackHeight: number,
+  headtubeAngle: number
 ): XYCoordinateProps => {
-  const angleInRadians = ((90 - headtubeAngle) * Math.PI / 100);
-  const offset = convertMmToPixels(stackHeight);
+  const angleInRadians = ((90 - headtubeAngle) * Math.PI) / 180;
+  // Adjust this scaling factor as needed
+  const scalingFactor = 3; // This might need fine-tuning
+  const offset = stackHeight * scalingFactor;
 
   return {
     x: -(Math.sin(angleInRadians) * offset),
-    y: -(Math.cos(angleInRadians) * offset)
+    y: -(Math.cos(angleInRadians) * offset),
   };
-   
 };
 
 /**
